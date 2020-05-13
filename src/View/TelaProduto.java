@@ -6,10 +6,8 @@
 package View;
 
 import Controler.ProdutoDAO;
-import Controler.UsuarioDAO;
 import Model.Ferramentas;
 import Model.Produto;
-import Model.Usuario;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.List;
@@ -142,6 +140,7 @@ public class TelaProduto extends javax.swing.JFrame {
         jScrollPane2.setViewportView(txtDescricao);
 
         txtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtPreco.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPreco.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtPrecoFocusLost(evt);
@@ -206,7 +205,7 @@ public class TelaProduto extends javax.swing.JFrame {
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Produto", painelDados);
@@ -226,6 +225,7 @@ public class TelaProduto extends javax.swing.JFrame {
             }
         });
 
+        TabelaProduto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         TabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -430,6 +430,8 @@ public class TelaProduto extends javax.swing.JFrame {
         txtDescricao.setText(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 4).toString());
         btnAlterar.setEnabled(true);
         btnExcluir.setEnabled(true);
+
+
     }//GEN-LAST:event_TabelaProdutoMouseClicked
 
     private void jTabbedPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane1KeyPressed
@@ -438,23 +440,37 @@ public class TelaProduto extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        Produto obj = new Produto();
-        obj.setNome(txtNome.getText());
-        System.out.println("o txtPreco = " + txtPreco.getText());
-        obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".")));
-        System.out.println("preco formatado " + txtPreco.getText());
-        obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
-        obj.setDescricao(txtDescricao.getText());
+        try {
 
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.cadastrarProduto(obj);
-        new Ferramentas().LimpaCampo(painelDados);
-        txtDescricao.setText(null);
+            if (Integer.parseInt(txtQuantidade.getText()) >= 0) {
+
+                Produto obj = new Produto();
+                obj.setNome(txtNome.getText());
+                obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
+                obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+                obj.setDescricao(txtDescricao.getText());
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.cadastrarProduto(obj);
+                new Ferramentas().LimpaCampo(painelDados);
+                txtDescricao.setText(null);
+
+            } else {
+                txtQuantidade.setText(null);
+                JOptionPane.showMessageDialog(null, "Por favor informe uma quantidade valida ! \n ");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  Campo vazio ou incorreto! " + ex);
+            txtPreco.setText(null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  ! " + ex);
+        }
 
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+
         Produto obj = new Produto();
         obj.setId(Integer.parseInt(txtCodigo.getText()));
         ProdutoDAO dao = new ProdutoDAO();
@@ -462,22 +478,40 @@ public class TelaProduto extends javax.swing.JFrame {
         new Ferramentas().LimpaCampo(painelDados);
         desabilitaBotoes();
         txtDescricao.setText(null);
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        Produto obj = new Produto();
-        obj.setNome(txtNome.getText());
-        obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".")));
-        obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
-        obj.setDescricao(txtDescricao.getText());
 
-        obj.setId(Integer.parseInt(txtCodigo.getText()));
+        try {
+            if (Integer.parseInt(txtQuantidade.getText()) >= 0) {
 
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.alterarProduto(obj);
-        new Ferramentas().LimpaCampo(painelDados);
-        desabilitaBotoes();
-        txtDescricao.setText(null);
+                Produto obj = new Produto();
+                obj.setNome(txtNome.getText());
+                obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
+                obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+                obj.setDescricao(txtDescricao.getText());
+
+                obj.setId(Integer.parseInt(txtCodigo.getText()));
+
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.alterarProduto(obj);
+                new Ferramentas().LimpaCampo(painelDados);
+                desabilitaBotoes();
+                txtDescricao.setText(null);
+            } else {
+                txtQuantidade.setText(null);
+                JOptionPane.showMessageDialog(null, "Por favor informe uma quantidade valida ! \n ");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar dados ! \n  Campo vazio ou incorreto! " + ex);
+            txtPreco.setText(null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar dados ! \n  ! " + ex);
+        }
+
+
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -499,13 +533,17 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecoActionPerformed
 
     private void txtPrecoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrecoFocusLost
-        String valor = txtPreco.getText();
-        String valor1 = valor.replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".");
-        BigDecimal valorDec = new BigDecimal(valor1);
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        String valorFormat = nf.format(valorDec).toString();
-        System.out.println("valor formatado" + valorFormat);
-        txtPreco.setText(valorFormat);
+
+        try {
+            String valor = txtPreco.getText();
+            String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", ".");
+            BigDecimal valorDec = new BigDecimal(valor1);
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            String valorFormat = nf.format(valorDec).toString();
+            txtPreco.setText(valorFormat);
+        } catch (NumberFormatException ex) {
+            txtPreco.setText(null);
+        }
 
 
     }//GEN-LAST:event_txtPrecoFocusLost

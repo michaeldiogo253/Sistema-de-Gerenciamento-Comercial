@@ -69,6 +69,11 @@ public class TelaAdmin extends javax.swing.JFrame {
 
         btnProduto.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnProduto.setText("Produtos");
+        btnProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProdutoActionPerformed(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/order (1).png"))); // NOI18N
 
@@ -180,6 +185,12 @@ public class TelaAdmin extends javax.swing.JFrame {
         }
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoActionPerformed
+        
+        TelaProduto telaProd = new TelaProduto();
+        telaProd.setVisible(true);
+    }//GEN-LAST:event_btnProdutoActionPerformed
 
     /**
      * @param args the command line arguments
