@@ -133,9 +133,11 @@ public class TelaProduto extends javax.swing.JFrame {
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        txtCodigo.setEditable(false);
         txtCodigo.setRequestFocusEnabled(false);
 
         txtDescricao.setColumns(20);
+        txtDescricao.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         txtDescricao.setRows(5);
         jScrollPane2.setViewportView(txtDescricao);
 
@@ -166,8 +168,8 @@ public class TelaProduto extends javax.swing.JFrame {
                 .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8))
@@ -177,7 +179,7 @@ public class TelaProduto extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(227, 227, 227))
         );
         painelDadosLayout.setVerticalGroup(
@@ -195,16 +197,16 @@ public class TelaProduto extends javax.swing.JFrame {
                     .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelDadosLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)))
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGap(67, 67, 67)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelDadosLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -442,12 +444,24 @@ public class TelaProduto extends javax.swing.JFrame {
 
         try {
 
-            if (Integer.parseInt(txtQuantidade.getText()) >= 0) {
+            if ((Integer.parseInt(txtQuantidade.getText()) >= 0)&& (!txtNome.getText().equals(""))) {
 
                 Produto obj = new Produto();
                 obj.setNome(txtNome.getText());
-                obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
-                obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+                try {
+                    obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Preço invalido ! \n  Campo vazio ou incorreto! " + ex);
+                    txtPreco.setText(null);
+                }
+                
+                try {
+                    obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Quantidade invalide ! \n  Campo vazio ou incorreto! " + ex);
+                    txtQuantidade.setText(null);
+                }
+               
                 obj.setDescricao(txtDescricao.getText());
                 ProdutoDAO dao = new ProdutoDAO();
                 dao.cadastrarProduto(obj);
@@ -456,12 +470,13 @@ public class TelaProduto extends javax.swing.JFrame {
 
             } else {
                 txtQuantidade.setText(null);
-                JOptionPane.showMessageDialog(null, "Por favor informe uma quantidade valida ! \n ");
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar, campos invaidos! \n ");
             }
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  Campo vazio ou incorreto! " + ex);
             txtPreco.setText(null);
+            txtQuantidade.setText(null);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  ! " + ex);
         }
@@ -542,8 +557,8 @@ public class TelaProduto extends javax.swing.JFrame {
             String valorFormat = nf.format(valorDec).toString();
             txtPreco.setText(valorFormat);
         } catch (NumberFormatException ex) {
-            txtPreco.setText(null);
-        }
+            txtPreco.setText("");
+        } 
 
 
     }//GEN-LAST:event_txtPrecoFocusLost

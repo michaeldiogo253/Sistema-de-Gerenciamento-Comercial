@@ -122,11 +122,13 @@ public class ProdutoDAO {
                 obj.setDescricao(rs.getString("descricao"));
                 lista.add(obj);
 
-                lista.add(obj);
             }
 
             return lista;
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(null, "Produto já existe na base de dados ! ");
+            return null;
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro" + erro);
             return null;
