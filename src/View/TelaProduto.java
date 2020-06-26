@@ -179,7 +179,7 @@ public class TelaProduto extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(227, 227, 227))
         );
         painelDadosLayout.setVerticalGroup(
@@ -551,7 +551,9 @@ public class TelaProduto extends javax.swing.JFrame {
 
         try {
             String valor = txtPreco.getText();
+            
             String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", ".");
+            //System.out.println("string depois do replace "+ valor1);
             BigDecimal valorDec = new BigDecimal(valor1);
             NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             String valorFormat = nf.format(valorDec).toString();
@@ -559,7 +561,6 @@ public class TelaProduto extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             txtPreco.setText("");
         } 
-
 
     }//GEN-LAST:event_txtPrecoFocusLost
 
@@ -574,7 +575,7 @@ public class TelaProduto extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

@@ -146,8 +146,8 @@ public class TelaLogin extends javax.swing.JFrame {
                         tela.setVisible(true);
                         dispose();
                     } else{
-                        TelaFuncionario telaFun = new TelaFuncionario();
-                        telaFun.setVisible(true);
+                        TelaVendas telaVen = new TelaVendas(txtUsuario.getText());
+                        telaVen.setVisible(true);
                     }
                     
                     

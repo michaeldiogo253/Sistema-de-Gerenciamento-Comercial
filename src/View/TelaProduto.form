@@ -191,7 +191,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                  <Component id="txtPreco" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="txtPreco" min="-2" pref="122" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="227" max="-2" attributes="0"/>
