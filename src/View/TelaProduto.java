@@ -173,13 +173,12 @@ public class TelaProduto extends javax.swing.JFrame {
                 .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8))
-                .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(6, 6, 6)
+                .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(painelDadosLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelDadosLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(175, 175, 175)))
                 .addGap(227, 227, 227))
         );
         painelDadosLayout.setVerticalGroup(
@@ -444,24 +443,32 @@ public class TelaProduto extends javax.swing.JFrame {
 
         try {
 
-            if ((Integer.parseInt(txtQuantidade.getText()) >= 0)&& (!txtNome.getText().equals(""))) {
+            if ((Integer.parseInt(txtQuantidade.getText()) >= 0) && (!txtNome.getText().equals(""))) {
 
                 Produto obj = new Produto();
                 obj.setNome(txtNome.getText());
                 try {
-                    obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
+                    String valor = txtPreco.getText();
+                    String valorSemEspacos = valor.replaceAll(" ", "");
+                    String valor1 = valorSemEspacos.replace("R$", "").replace(".", "");
+                    String valor2 = valor1.replace(",", ".");
+                    System.out.println("valor1 " + valor2);
+
+                    obj.setPreco(Float.valueOf(valor2));
+
                 } catch (NumberFormatException ex) {
+
                     JOptionPane.showMessageDialog(null, "Preço invalido ! \n  Campo vazio ou incorreto! " + ex);
                     txtPreco.setText(null);
                 }
-                
+
                 try {
                     obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Quantidade invalide ! \n  Campo vazio ou incorreto! " + ex);
                     txtQuantidade.setText(null);
                 }
-               
+
                 obj.setDescricao(txtDescricao.getText());
                 ProdutoDAO dao = new ProdutoDAO();
                 dao.cadastrarProduto(obj);
@@ -503,7 +510,7 @@ public class TelaProduto extends javax.swing.JFrame {
 
                 Produto obj = new Produto();
                 obj.setNome(txtNome.getText());
-                obj.setPreco(Float.parseFloat(txtPreco.getText().replace("R$", "").replace(" ", "").replace(",", ".")));
+                obj.setPreco(Float.valueOf(txtPreco.getText().replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".")));
                 obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
                 obj.setDescricao(txtDescricao.getText());
 
@@ -548,19 +555,20 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecoActionPerformed
 
     private void txtPrecoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrecoFocusLost
-
+        // este recurso apenas formata o campo preço para um valor de dinherio brasileiro
         try {
             String valor = txtPreco.getText();
-            
-            String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", ".");
-            //System.out.println("string depois do replace "+ valor1);
+            String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", "."); 
             BigDecimal valorDec = new BigDecimal(valor1);
             NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             String valorFormat = nf.format(valorDec).toString();
             txtPreco.setText(valorFormat);
+
         } catch (NumberFormatException ex) {
+
             txtPreco.setText("");
-        } 
+
+        }
 
     }//GEN-LAST:event_txtPrecoFocusLost
 

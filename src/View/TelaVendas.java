@@ -17,8 +17,7 @@ public class TelaVendas extends javax.swing.JFrame {
     Date data = new Date();
     DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-    Timer timer = new Timer(1000, new hora());
-    timer.start();
+    
 
     /**
      * Creates new form TelaVendas
@@ -76,6 +75,11 @@ public class TelaVendas extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1000, 700));
@@ -419,6 +423,12 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnPesquisarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPesquisarPActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Timer timer = new Timer(1000, new hora());
+        timer.start();
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
