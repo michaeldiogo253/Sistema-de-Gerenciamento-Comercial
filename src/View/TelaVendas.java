@@ -14,11 +14,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
     Conexao conex = new Conexao();
 
-    Date data = new Date();
-    DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-    
-
     /**
      * Creates new form TelaVendas
      */
@@ -26,7 +21,6 @@ public class TelaVendas extends javax.swing.JFrame {
         initComponents();
         lblNome.setText(usuario);
         conex.conecta();
-        lblData.setText(formato.format(data).toString());
 
     }
 
@@ -425,9 +419,13 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPesquisarPActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Date data = new Date();
+        DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        lblData.setText(formato.format(data).toString());
+
         Timer timer = new Timer(1000, new hora());
         timer.start();
-        
+
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -494,11 +492,12 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JTextField txtQuantidade;
     // End of variables declaration//GEN-END:variables
 class hora implements ActionListener {
-    @Override
-    public void actionPerformed ( ActionEvent e){
-        Calendar now = Calendar.getInstance();
-        lblHora.setText(String.format("%1$tH:%1$tM:%1$tS", now));
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Calendar now = Calendar.getInstance();
+            lblHora.setText(String.format("%1$tH:%1$tM:%1$tS", now));
+        }
     }
-}
 
 }
