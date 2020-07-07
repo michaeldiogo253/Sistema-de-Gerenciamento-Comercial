@@ -496,14 +496,17 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int op = JOptionPane.showConfirmDialog(null, "Deseja excluir produto ???", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (op == JOptionPane.YES_OPTION) {
+            Produto obj = new Produto();
+            obj.setId(Integer.parseInt(txtCodigo.getText()));
+            ProdutoDAO dao = new ProdutoDAO();
+            dao.excluirProduto(obj);
+            new Ferramentas().LimpaCampo(painelDados);
+            desabilitaBotoes();
+            txtDescricao.setText(null);
+        }
 
-        Produto obj = new Produto();
-        obj.setId(Integer.parseInt(txtCodigo.getText()));
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.excluirProduto(obj);
-        new Ferramentas().LimpaCampo(painelDados);
-        desabilitaBotoes();
-        txtDescricao.setText(null);
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -541,7 +544,11 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        dispose();
+        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (op == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed

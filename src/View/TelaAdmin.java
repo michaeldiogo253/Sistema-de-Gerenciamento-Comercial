@@ -1,23 +1,22 @@
-
 package View;
 
 import BancodeDados.Conexao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-
 public class TelaAdmin extends javax.swing.JFrame {
-       Conexao conex = new Conexao();
+
+    Conexao conex = new Conexao();
+
     /**
      * Creates new form TelaAdmin
      */
     public TelaAdmin(String usuario) {
-        
+
         initComponents();
         labelNome.setText(usuario);
         conex.conecta();
-        
-     
+
     }
 
     TelaAdmin() {
@@ -169,25 +168,28 @@ public class TelaAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        //TelaCadastroUsuario telaCad = new TelaCadastroUsuario();
-        //jDesktopPaneAdmin.add(telaCad);
-        //telaCad.setVisible(true);
+        
 
         TelaCadUsuario tela1 = new TelaCadUsuario();
         tela1.setVisible(true);
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        try {
-            conex.desconecta();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao encerrar conexão ! \n Erro :"+ ex.getMessage());
+        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (op == JOptionPane.YES_OPTION) {
+            try {
+                conex.desconecta();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao encerrar conexão ! \n Erro :" + ex.getMessage());
+            }
+            System.exit(0);
         }
-        System.exit(0);
+
+
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoActionPerformed
-        
+
         TelaProduto telaProd = new TelaProduto();
         telaProd.setVisible(true);
     }//GEN-LAST:event_btnProdutoActionPerformed
