@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaProduto extends javax.swing.JFrame {
 
+    ProdutoDAO daoObj = new ProdutoDAO(); // obj global 
+
     public void listar() {
 
         ProdutoDAO dao = new ProdutoDAO();
@@ -50,6 +52,7 @@ public class TelaProduto extends javax.swing.JFrame {
      */
     public TelaProduto() {
         initComponents();
+
     }
 
     /**
@@ -443,18 +446,20 @@ public class TelaProduto extends javax.swing.JFrame {
 
         try {
 
-            if ((Integer.parseInt(txtQuantidade.getText()) >= 0) && (!txtNome.getText().equals(""))) {
+            if ((Integer.parseInt(txtQuantidade.getText()) >= 0) && (!txtNome.getText().equals("")) && (!txtPreco.getText().equals(""))) {
 
                 Produto obj = new Produto();
-                obj.setNome(txtNome.getText());
+                try {
+                    obj.setNome(txtNome.getText());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Nome invalido ! \n  Campo vazio ou incorreto! " + e);
+                    txtNome.setText(null);
+                }
+
                 try {
                     String valor = txtPreco.getText();
-                    String valorSemEspacos = valor.replaceAll(" ", "");
-                    String valor1 = valorSemEspacos.replace("R$", "").replace(".", "");
-                    String valor2 = valor1.replace(",", ".");
-                    System.out.println("valor1 " + valor2);
 
-                    obj.setPreco(Float.valueOf(valor2));
+                    obj.setPreco(daoObj.converteValorSalvarBanco(valor));
 
                 } catch (NumberFormatException ex) {
 
@@ -465,7 +470,7 @@ public class TelaProduto extends javax.swing.JFrame {
                 try {
                     obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Quantidade invalide ! \n  Campo vazio ou incorreto! " + ex);
+                    JOptionPane.showMessageDialog(null, "Quantidade invalida ! \n  Campo vazio ou incorreto! " + ex);
                     txtQuantidade.setText(null);
                 }
 
@@ -476,14 +481,13 @@ public class TelaProduto extends javax.swing.JFrame {
                 txtDescricao.setText(null);
 
             } else {
-                txtQuantidade.setText(null);
+                txtQuantidade.setText(null); // valor negativo 
                 JOptionPane.showMessageDialog(null, "Erro ao cadastrar, campos invaidos! \n ");
             }
 
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  Campo vazio ou incorreto! " + ex);
-            txtPreco.setText(null);
-            txtQuantidade.setText(null);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  ! " + e);
+            txtQuantidade.setText(null); // caracteres incorretos digitados na quantidade
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n  ! " + ex);
         }
@@ -510,7 +514,7 @@ public class TelaProduto extends javax.swing.JFrame {
 
                 Produto obj = new Produto();
                 obj.setNome(txtNome.getText());
-                obj.setPreco(Float.valueOf(txtPreco.getText().replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".")));
+                obj.setPreco(daoObj.converteValorSalvarBanco(txtPreco.getText()));
                 obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
                 obj.setDescricao(txtDescricao.getText());
 
@@ -558,11 +562,8 @@ public class TelaProduto extends javax.swing.JFrame {
         // este recurso apenas formata o campo preço para um valor de dinherio brasileiro
         try {
             String valor = txtPreco.getText();
-            String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", "."); 
-            BigDecimal valorDec = new BigDecimal(valor1);
-            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-            String valorFormat = nf.format(valorDec).toString();
-            txtPreco.setText(valorFormat);
+
+            txtPreco.setText(daoObj.converteValorDinheiro(valor));
 
         } catch (NumberFormatException ex) {
 

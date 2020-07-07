@@ -3,12 +3,15 @@ package Controler;
 import BancodeDados.Conexao;
 import Model.Produto;
 import Model.Usuario;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -134,6 +137,22 @@ public class ProdutoDAO {
             return null;
         }
 
+    }
+
+    public String converteValorDinheiro(String valor) {
+        String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", ".");
+        BigDecimal valorDec = new BigDecimal(valor1);
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        String valorFormat = nf.format(valorDec).toString();
+        return valorFormat;
+    }
+
+    public Float converteValorSalvarBanco(String valor) {
+
+        String valorSemEspacos = valor.replaceAll(" ", "");
+        String valor1 = valorSemEspacos.replace("R$", "").replace(".", "");
+        String valor2 = valor1.replace(",", ".");
+        return Float.valueOf(valor2);
     }
 
 }
