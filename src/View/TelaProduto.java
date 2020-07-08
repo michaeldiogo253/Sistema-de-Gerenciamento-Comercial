@@ -503,6 +503,7 @@ public class TelaProduto extends javax.swing.JFrame {
             ProdutoDAO dao = new ProdutoDAO();
             dao.excluirProduto(obj);
             new Ferramentas().LimpaCampo(painelDados);
+
             desabilitaBotoes();
             txtDescricao.setText(null);
         }

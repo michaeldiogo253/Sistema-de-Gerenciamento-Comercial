@@ -39,7 +39,7 @@ public class ProdutoDAO {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n Erro : " + ex);
         }
-
+        
     }
 
     public void excluirProduto(Produto obj) {
