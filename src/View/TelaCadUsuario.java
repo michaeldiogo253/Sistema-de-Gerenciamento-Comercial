@@ -6,7 +6,7 @@
 package View;
 
 import Controler.UsuarioDAO;
-import Model.Ferramentas;
+import Controler.Ferramentas;
 import Model.Usuario;
 import java.util.List;
 import javax.swing.JOptionPane;

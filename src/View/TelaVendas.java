@@ -1,6 +1,8 @@
 package View;
 
 import BancodeDados.Conexao;
+import Controler.VendaDAO;
+import Model.Produto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -42,7 +45,7 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        btnLimpar = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -54,6 +57,7 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         btnPesquisarP = new javax.swing.JButton();
+        btnLimpar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaItens = new javax.swing.JTable();
@@ -105,14 +109,14 @@ public class TelaVendas extends javax.swing.JFrame {
             }
         });
 
-        btnLimpar.setBackground(new java.awt.Color(255, 255, 255));
-        btnLimpar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnLimpar.setText("Relatorio de vendas");
-        btnLimpar.setContentAreaFilled(false);
-        btnLimpar.setOpaque(true);
-        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+        btnRelatorio.setBackground(new java.awt.Color(255, 255, 255));
+        btnRelatorio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnRelatorio.setText("Relatorio de vendas");
+        btnRelatorio.setContentAreaFilled(false);
+        btnRelatorio.setOpaque(true);
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimparActionPerformed(evt);
+                btnRelatorioActionPerformed(evt);
             }
         });
 
@@ -176,6 +180,15 @@ public class TelaVendas extends javax.swing.JFrame {
             }
         });
 
+        btnLimpar.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnLimpar.setText("Limpar ");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -203,10 +216,12 @@ public class TelaVendas extends javax.swing.JFrame {
                                 .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(btnLimpar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdd)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,9 +243,11 @@ public class TelaVendas extends javax.swing.JFrame {
                     .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
-                .addGap(35, 35, 35)
-                .addComponent(btnAdd)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnLimpar))
+                .addGap(35, 35, 35))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -329,7 +346,7 @@ public class TelaVendas extends javax.swing.JFrame {
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(67, 67, 67)
-                                .addComponent(btnLimpar)
+                                .addComponent(btnRelatorio)
                                 .addGap(33, 33, 33)
                                 .addComponent(btnSair)))
                         .addGap(98, 98, 98)
@@ -338,7 +355,7 @@ public class TelaVendas extends javax.swing.JFrame {
                                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(btnSalvar))
-                        .addGap(0, 140, Short.MAX_VALUE)))
+                        .addGap(0, 150, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -366,7 +383,7 @@ public class TelaVendas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSair)
-                            .addComponent(btnLimpar))
+                            .addComponent(btnRelatorio))
                         .addGap(54, 54, 54))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -398,9 +415,9 @@ public class TelaVendas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
 
-    }//GEN-LAST:event_btnLimparActionPerformed
+    }//GEN-LAST:event_btnRelatorioActionPerformed
 
     private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
         // TODO add your handling code here:
@@ -419,18 +436,35 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPesquisarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPActionPerformed
-        // TODO add your handling code here:
+
+        String nome = txtNome.getText();
+        Produto p = new Produto();
+        VendaDAO dao = new VendaDAO();
+        p = dao.buscaProdutoPorNome(nome);
+        txtCod.setText(String.valueOf(p.getId()));
+        txtPreco.setText(String.valueOf(p.getPreco()));
+        txtQuantidade.setText(String.valueOf(p.getQuantidade()));
+
     }//GEN-LAST:event_btnPesquisarPActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Date data = new Date();
         DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        lblData.setText(formato.format(data).toString());
+        lblData.setText(formato.format(data)); // removi um toString daqui se der ruim depois ...
 
         Timer timer = new Timer(1000, new hora());
         timer.start();
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+
+        txtCod.setText("");
+        txtNome.setText("");
+        txtPreco.setText("");
+        txtQuantidade.setText("");
+
+    }//GEN-LAST:event_btnLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -472,6 +506,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnPesquisarP;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;

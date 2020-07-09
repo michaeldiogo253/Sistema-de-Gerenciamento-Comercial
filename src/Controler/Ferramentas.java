@@ -1,5 +1,5 @@
 
-package Model;
+package Controler;
 
 import java.awt.Component;
 import javax.swing.JPanel;

@@ -2,7 +2,6 @@ package Controler;
 
 import BancodeDados.Conexao;
 import Model.Produto;
-import Model.Usuario;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,13 +32,14 @@ public class ProdutoDAO {
 
             pst.execute();
             pst.close();
+
             JOptionPane.showMessageDialog(null, "Dados inseridos com Sucesso !");
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "Produto já existe na base de dados ! ");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n Erro : " + ex);
         }
-        
+
     }
 
     public void excluirProduto(Produto obj) {
@@ -51,6 +51,7 @@ public class ProdutoDAO {
             pst.setInt(1, obj.getId());
             pst.execute();
             pst.close();
+
             JOptionPane.showMessageDialog(null, "Produto excluido  com sucesso!");
 
         } catch (Exception e) {
@@ -72,6 +73,7 @@ public class ProdutoDAO {
 
             pst.execute();
             pst.close();
+
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar!" + e);
@@ -126,7 +128,6 @@ public class ProdutoDAO {
                 lista.add(obj);
 
             }
-
             return lista;
 
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -143,7 +144,7 @@ public class ProdutoDAO {
         String valor1 = valor.replace("R$", "").replace(" ", "").replace(",", ".");
         BigDecimal valorDec = new BigDecimal(valor1);
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        String valorFormat = nf.format(valorDec).toString();
+        String valorFormat = nf.format(valorDec);
         return valorFormat;
     }
 
