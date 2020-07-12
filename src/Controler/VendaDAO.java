@@ -18,7 +18,7 @@ public class VendaDAO {
         conexao.conecta();
         try {
 
-            String SQL = "select * from tb_produtos where nome like '%" + nome + "%'";
+            String SQL = "select * from tb_produtos where nome = '" + nome + "'";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery(SQL);
             Produto obj = new Produto();

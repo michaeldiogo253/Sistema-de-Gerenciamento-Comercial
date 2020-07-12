@@ -312,6 +312,7 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setText("TOTAL");
 
+        txtTotal.setEditable(false);
         txtTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -379,18 +380,17 @@ public class TelaVendas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(62, 62, 62)
+                            .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(68, 68, 68)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -448,20 +448,33 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodKeyPressed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        quantidade = Integer.parseInt(txtQuantidade.getText());
-        preco = Double.parseDouble(txtPreco.getText());
-        subtotal = quantidade * preco;
-        total = total + subtotal;
-        txtTotal.setText(String.valueOf(total));
+        try {
+            if ((Integer.parseInt(txtCod.getText()) > 0) && !(txtNome.getText().equals("")) && (Integer.parseInt(txtQuantidade.getText()) > 0)
+                    && !txtQuantidade.getText().equals("")) {
 
-        carrinho = (DefaultTableModel) TabelaItens.getModel();
-        carrinho.addRow(new Object[]{
-            txtCod.getText(),
-            txtNome.getText(),
-            txtQuantidade.getText(),
-            txtPreco.getText(),
-            subtotal
-        });
+                quantidade = Integer.parseInt(txtQuantidade.getText());
+                preco = Double.parseDouble(txtPreco.getText());
+                subtotal = quantidade * preco;
+                total = total + subtotal;
+                txtTotal.setText(String.valueOf(total));
+
+                carrinho = (DefaultTableModel) TabelaItens.getModel();
+                carrinho.addRow(new Object[]{
+                    txtCod.getText(),
+                    txtNome.getText(),
+                    txtQuantidade.getText(),
+                    txtPreco.getText(),
+                    subtotal
+                });
+
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Dados invalidos ou em brancos! ");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Dados invalidos ou em brancos! ");
+        }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPesquisarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPActionPerformed
@@ -497,15 +510,14 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         // verifica se a linha esta selecionada ou não
-        if(TabelaItens.getSelectedRow() != -1){
-            int valor = Integer.parseInt((TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 3).toString()));
-           // tava removendo
-            subtotal = subtotal - valor;
+        if (TabelaItens.getSelectedRow() != -1) {
+            double precoRemover = (double) TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 4); // pegamos o valor em double da tabela
+            total = total - precoRemover;
+            txtTotal.setText(String.valueOf(total));
             carrinho.removeRow(TabelaItens.getSelectedRow());
-            
-            
+
         }
-        
+
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     /**
@@ -519,7 +531,7 @@ public class TelaVendas extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
