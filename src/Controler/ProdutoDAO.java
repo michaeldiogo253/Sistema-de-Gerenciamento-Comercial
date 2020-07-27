@@ -176,5 +176,26 @@ public class ProdutoDAO {
         }
 
     }
+    /// apagar depois este metodo
+    public void AdicionarEstoque(int id, int qtdNova) {
+        
+        String sql = "update tb_produtos set qtd_estoque = ? where id = ?";
+        conexao.conecta();
 
+        try {
+            PreparedStatement pst = conexao.conex.prepareStatement(sql);
+            pst.setInt(1, qtdNova);
+            pst.setInt(2, id);
+
+            pst.execute();
+            pst.close();
+
+            JOptionPane.showMessageDialog(null, "Operação efetuada com sucesso! ");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao efetuar operação! " + e);
+
+        }
+
+    }
+    
 }

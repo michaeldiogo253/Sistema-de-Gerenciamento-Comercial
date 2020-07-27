@@ -41,9 +41,9 @@ public class TelaAdmin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSair = new javax.swing.JButton();
-        btnRelatorio = new javax.swing.JButton();
+        btnAddProduto = new javax.swing.JButton();
         labelNome = new javax.swing.JLabel();
-        btnRelatorio1 = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,19 +90,19 @@ public class TelaAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnRelatorio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnRelatorio.setText("Controle de Estoque");
-        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+        btnAddProduto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnAddProduto.setText("Controle de Estoque");
+        btnAddProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRelatorioActionPerformed(evt);
+                btnAddProdutoActionPerformed(evt);
             }
         });
 
         labelNome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         labelNome.setForeground(new java.awt.Color(255, 255, 255));
 
-        btnRelatorio1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        btnRelatorio1.setText("Relatorios");
+        btnRelatorio.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnRelatorio.setText("Relatorios");
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/businesspackage_additionalpackage_box_add_insert_negoci_2335 64.png"))); // NOI18N
 
@@ -128,9 +128,9 @@ public class TelaAdmin extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRelatorio)
+                            .addComponent(btnAddProduto)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnRelatorio1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                                .addComponent(btnRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                                 .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
@@ -162,9 +162,9 @@ public class TelaAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(btnRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAddProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(63, 63, 63)
-                        .addComponent(btnRelatorio1)
+                        .addComponent(btnRelatorio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSair)
                         .addGap(187, 187, 187))
@@ -212,10 +212,11 @@ public class TelaAdmin extends javax.swing.JFrame {
         telaProd.setVisible(true);
     }//GEN-LAST:event_btnProdutoActionPerformed
 
-    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
-
+    private void btnAddProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdutoActionPerformed
+        TelaAdicionarProdutos tela = new TelaAdicionarProdutos();
+        tela.setVisible(true);
         
-    }//GEN-LAST:event_btnRelatorioActionPerformed
+    }//GEN-LAST:event_btnAddProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,9 +254,9 @@ public class TelaAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddProduto;
     private javax.swing.JButton btnProduto;
     private javax.swing.JButton btnRelatorio;
-    private javax.swing.JButton btnRelatorio1;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnUsuario;
     private javax.swing.JLabel jLabel1;

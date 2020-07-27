@@ -1,6 +1,7 @@
 package View;
 
 import BancodeDados.Conexao;
+import Controler.ProdutoDAO;
 import Controler.VendaDAO;
 import Model.Produto;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ public class TelaVendas extends javax.swing.JFrame {
     double total, preco, subtotal;
     int quantidade;
     DefaultTableModel carrinho;
-
+    int qtdEstoque , qtdNova;
     Conexao conex = new Conexao();
 
     /**
@@ -508,7 +509,13 @@ public class TelaVendas extends javax.swing.JFrame {
                     txtPreco.getText(),
                     subtotal
                 });
-
+                 // realiza o calculo
+                qtdEstoque = Integer.parseInt(txtEstoqueAtual.getText());
+                qtdNova = qtdEstoque - quantidade;
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.AlteraEstoque(Integer.parseInt(txtCod.getText()), qtdNova);
+                txtEstoqueAtual.setText(String.valueOf(qtdNova));
+                
             }
 
         } catch (NumberFormatException ex) {
@@ -554,12 +561,20 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         // verifica se a linha esta selecionada ou não
+        //int codProduto , qtdProduto;
+        
         if (TabelaItens.getSelectedRow() != -1) {
+             int codProduto =  Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 0).toString());
+             int qtdProduto =  Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 2).toString()); // pegando a quantidade do carrinho
             double precoRemover = (double) TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 4); // pegamos o valor em double da tabela
+            
+            
+            ProdutoDAO daop = new ProdutoDAO();
+            daop.AlteraEstoque(codProduto, qtdProduto);
             total = total - precoRemover;
             txtTotal.setText(String.valueOf(total));
             carrinho.removeRow(TabelaItens.getSelectedRow());
-
+            
         }
 
     }//GEN-LAST:event_btnRemoverActionPerformed

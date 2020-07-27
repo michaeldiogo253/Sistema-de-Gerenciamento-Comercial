@@ -10,9 +10,9 @@ import javax.swing.table.DefaultTableModel;
 public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
     int idProduto, qtdNova;
-    
+
     public void listar() {
-        
+
         ProdutoDAO dao = new ProdutoDAO();
         List<Produto> lista = dao.listarProduto();
         DefaultTableModel dados = (DefaultTableModel) TabelaProduto.getModel();
@@ -25,15 +25,16 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
                 c.getPreco(),
                 c.getQuantidade(),
                 c.getDescricao()
-            
+
             });
         }
     }
-    
+
     public TelaAdicionarProdutos() {
         initComponents();
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -219,7 +220,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         List<Produto> lista = dao.buscaProdutoPorNome(nome);
         DefaultTableModel dados = (DefaultTableModel) TabelaProduto.getModel();
         dados.setNumRows(0);
-        
+
         for (Produto c : lista) {
             dados.addRow(new Object[]{
                 c.getId(),
@@ -227,9 +228,9 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
                 c.getPreco(),
                 c.getQuantidade(),
                 c.getDescricao()
-            
+
             });
-            
+
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -245,7 +246,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         idProduto = Integer.parseInt(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 0).toString());
         txtPesquisa.setText(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 1).toString());
         txtEstoqueAtual.setText(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 3).toString());
-        
+
     }//GEN-LAST:event_TabelaProdutoMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -253,21 +254,29 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
+
         try {
-            int qtdEstoque, qtdAdicionada;
-            qtdEstoque = Integer.parseInt(txtEstoqueAtual.getText());
-            qtdAdicionada = Integer.parseInt(txtQuantidade.getText());
-            qtdNova = qtdEstoque + qtdAdicionada;
-            
-            ProdutoDAO dao = new ProdutoDAO();
-            dao.AlteraEstoque(idProduto, qtdNova);
-            
-            Ferramentas f = new Ferramentas();
-            f.LimpaCampo(jPanel1);
-            
+            if (!txtQuantidade.equals("") && (Integer.parseInt(txtQuantidade.getText()) > 0)) {
+                int qtdEstoque, qtdAdicionada;
+                qtdEstoque = Integer.parseInt(txtEstoqueAtual.getText());
+                qtdAdicionada = Integer.parseInt(txtQuantidade.getText());
+                qtdNova = qtdEstoque + qtdAdicionada;
+
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.AlteraEstoque(idProduto, qtdNova);
+
+                Ferramentas f = new Ferramentas();
+                f.LimpaCampo(jPanel1);
+            } else {
+                JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
+                txtQuantidade.setText("");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
+            txtQuantidade.setText("");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar produto! " + e);
+            JOptionPane.showMessageDialog(null, "Erro ao adicionar produto! ");
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -286,7 +295,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
