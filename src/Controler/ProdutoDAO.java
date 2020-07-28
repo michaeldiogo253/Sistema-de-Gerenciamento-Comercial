@@ -130,9 +130,6 @@ public class ProdutoDAO {
             }
             return lista;
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "Produto já existe na base de dados ! ");
-            return null;
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro" + erro);
             return null;
@@ -169,33 +166,33 @@ public class ProdutoDAO {
             pst.execute();
             pst.close();
 
-            JOptionPane.showMessageDialog(null, "Operação efetuada com sucesso! ");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao efetuar operação! " + e);
 
         }
 
     }
+
     /// apagar depois este metodo
-    public void AdicionarEstoque(int id, int qtdNova) {
-        
-        String sql = "update tb_produtos set qtd_estoque = ? where id = ?";
+    public int SomarEstoque(int id, int qtdNova) {
         conexao.conecta();
-
         try {
-            PreparedStatement pst = conexao.conex.prepareStatement(sql);
-            pst.setInt(1, qtdNova);
-            pst.setInt(2, id);
+            String SQL = "select qtd_estoque from tb_produtos where id = '" + id + "'";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+            int qtdEstoque = 0;
+            while (rs.next()) {
+                qtdEstoque = rs.getInt("qtd_estoque");
 
-            pst.execute();
-            pst.close();
-
-            JOptionPane.showMessageDialog(null, "Operação efetuada com sucesso! ");
+            }
+            int total = qtdEstoque + qtdNova;
+            return total;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao efetuar operação! " + e);
+            return 0;
 
         }
 
     }
-    
+
 }

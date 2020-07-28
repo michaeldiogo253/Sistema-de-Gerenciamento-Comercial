@@ -20,7 +20,7 @@ public class TelaVendas extends javax.swing.JFrame {
     double total, preco, subtotal;
     int quantidade;
     DefaultTableModel carrinho;
-    int qtdEstoque , qtdNova;
+    int qtdEstoque, qtdNova;
     Conexao conex = new Conexao();
 
     /**
@@ -48,7 +48,7 @@ public class TelaVendas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnSalvar = new javax.swing.JButton();
+        btnPagamento = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnRelatorio = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -96,14 +96,14 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Controle de Vendas");
 
-        btnSalvar.setBackground(new java.awt.Color(255, 255, 255));
-        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        btnSalvar.setText("Pagamento");
-        btnSalvar.setContentAreaFilled(false);
-        btnSalvar.setOpaque(true);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+        btnPagamento.setBackground(new java.awt.Color(255, 255, 255));
+        btnPagamento.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        btnPagamento.setText("Pagamento");
+        btnPagamento.setContentAreaFilled(false);
+        btnPagamento.setOpaque(true);
+        btnPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+                btnPagamentoActionPerformed(evt);
             }
         });
 
@@ -405,7 +405,7 @@ public class TelaVendas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnSalvar))
+                    .addComponent(btnPagamento))
                 .addGap(79, 79, 79))
         );
         jPanel1Layout.setVerticalGroup(
@@ -442,7 +442,7 @@ public class TelaVendas extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSalvar)
+                                .addComponent(btnPagamento)
                                 .addGap(54, 54, 54))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -458,14 +458,10 @@ public class TelaVendas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+    private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
 
-        try {
 
-        } catch (Exception ex) {
-        }
-
-    }//GEN-LAST:event_btnSalvarActionPerformed
+    }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -493,7 +489,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             if ((Integer.parseInt(txtCod.getText()) > 0) && !(txtNome.getText().equals("")) && (Integer.parseInt(txtQuantidade.getText()) > 0)
-                    && !txtQuantidade.getText().equals("")) {
+                    && !txtQuantidade.getText().equals("")&& Integer.parseInt(txtEstoqueAtual.getText()) > 0) {
 
                 quantidade = Integer.parseInt(txtQuantidade.getText());
                 preco = Double.parseDouble(txtPreco.getText());
@@ -509,13 +505,17 @@ public class TelaVendas extends javax.swing.JFrame {
                     txtPreco.getText(),
                     subtotal
                 });
-                 // realiza o calculo
+                // realiza o calculo
                 qtdEstoque = Integer.parseInt(txtEstoqueAtual.getText());
                 qtdNova = qtdEstoque - quantidade;
                 ProdutoDAO dao = new ProdutoDAO();
                 dao.AlteraEstoque(Integer.parseInt(txtCod.getText()), qtdNova);
                 txtEstoqueAtual.setText(String.valueOf(qtdNova));
-                
+
+            }else {
+                if(Integer.parseInt(txtEstoqueAtual.getText()) <=0 ){
+                    JOptionPane.showMessageDialog(null, "Quantidade insuficiente ...");
+                }
             }
 
         } catch (NumberFormatException ex) {
@@ -535,7 +535,6 @@ public class TelaVendas extends javax.swing.JFrame {
         txtCod.setText(String.valueOf(p.getId()));
         txtPreco.setText(String.valueOf(p.getPreco()));
         txtEstoqueAtual.setText(String.valueOf(p.getQuantidade()));
-        //txtQuantidade.setText(String.valueOf(p.getQuantidade())); a quantidade o usuario que vai digitar
 
     }//GEN-LAST:event_btnPesquisarPActionPerformed
 
@@ -562,19 +561,20 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         // verifica se a linha esta selecionada ou não
         //int codProduto , qtdProduto;
-        
+
         if (TabelaItens.getSelectedRow() != -1) {
-             int codProduto =  Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 0).toString());
-             int qtdProduto =  Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 2).toString()); // pegando a quantidade do carrinho
+            int codProduto = Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 0).toString());
+            int qtdProduto = Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 2).toString()); // pegando a quantidade do carrinho
             double precoRemover = (double) TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 4); // pegamos o valor em double da tabela
-            
-            
+
+            //int totalProduto = Integer.parseInt(txtEstoqueAtual.getText());
             ProdutoDAO daop = new ProdutoDAO();
-            daop.AlteraEstoque(codProduto, qtdProduto);
+            txtEstoqueAtual.setText(String.valueOf(daop.SomarEstoque(codProduto, qtdProduto)));
+            daop.AlteraEstoque(codProduto, daop.SomarEstoque(codProduto, qtdProduto));
             total = total - precoRemover;
             txtTotal.setText(String.valueOf(total));
             carrinho.removeRow(TabelaItens.getSelectedRow());
-            
+
         }
 
     }//GEN-LAST:event_btnRemoverActionPerformed
@@ -586,7 +586,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnListarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutosActionPerformed
         TelaListarProdutos tela = new TelaListarProdutos();
         tela.setVisible(true);
-        
+
     }//GEN-LAST:event_btnListarProdutosActionPerformed
 
     /**
@@ -629,11 +629,11 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnListarProdutos;
+    private javax.swing.JButton btnPagamento;
     private javax.swing.JButton btnPesquisarP;
     private javax.swing.JButton btnRelatorio;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSair;
-    private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
