@@ -256,7 +256,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
         try {
-            if (!txtQuantidade.equals("") && (Integer.parseInt(txtQuantidade.getText()) > 0)) {
+            if (!txtQuantidade.getText().equals("") && (Integer.parseInt(txtQuantidade.getText()) > 0)) {
                 int qtdEstoque, qtdAdicionada;
                 qtdEstoque = Integer.parseInt(txtEstoqueAtual.getText());
                 qtdAdicionada = Integer.parseInt(txtQuantidade.getText());

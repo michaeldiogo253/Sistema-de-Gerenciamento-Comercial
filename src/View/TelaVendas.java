@@ -464,9 +464,13 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (op == JOptionPane.YES_OPTION) {
-            dispose();
+        if ((txtTotal.getText().equals("")) || (Double.parseDouble(txtTotal.getText()) == 0)) {
+            int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (op == JOptionPane.YES_OPTION) {
+                dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor encerre todas a vendas para sair!!!");
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
@@ -489,7 +493,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             if ((Integer.parseInt(txtCod.getText()) > 0) && !(txtNome.getText().equals("")) && (Integer.parseInt(txtQuantidade.getText()) > 0)
-                    && !txtQuantidade.getText().equals("")&& Integer.parseInt(txtEstoqueAtual.getText()) > 0) {
+                    && !txtQuantidade.getText().equals("") && Integer.parseInt(txtEstoqueAtual.getText()) > 0) {
 
                 quantidade = Integer.parseInt(txtQuantidade.getText());
                 preco = Double.parseDouble(txtPreco.getText());
@@ -512,8 +516,8 @@ public class TelaVendas extends javax.swing.JFrame {
                 dao.AlteraEstoque(Integer.parseInt(txtCod.getText()), qtdNova);
                 txtEstoqueAtual.setText(String.valueOf(qtdNova));
 
-            }else {
-                if(Integer.parseInt(txtEstoqueAtual.getText()) <=0 ){
+            } else {
+                if (Integer.parseInt(txtEstoqueAtual.getText()) <= 0) {
                     JOptionPane.showMessageDialog(null, "Quantidade insuficiente ...");
                 }
             }
