@@ -267,21 +267,38 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
                 Ferramentas f = new Ferramentas();
                 f.LimpaCampo(jPanel1);
+                listar();
+
             } else {
-                JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
                 txtQuantidade.setText("");
+                JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
-            txtQuantidade.setText("");
+            while (true) {
+                if (txtEstoqueAtual.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Selecione um produto para adicionar quantidade");
+                    break;
+                }
+                if (txtQuantidade.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
+                    break;
+                }
+                txtQuantidade.setText("");
+                JOptionPane.showMessageDialog(null, "Informe uma quantidade valida");
+                break;
+            }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar produto! ");
+            JOptionPane.showMessageDialog(null, "Erro ao efetuar operação! ");
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        dispose();
+        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (op == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**
