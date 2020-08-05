@@ -3,11 +3,21 @@ package Model;
 public class Venda {
 
     private int id;
+    private String nomeUsuario;
     private String dataVenda;
     private String horaVenda;
     private Double totalVenda;
     private String obsVenda;
-    private Usuario usuario;
+    private String tipoPagamento;
+    // nome do usuario posso  pegar do txt que marca o nome
+
+    public String getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 
     public int getId() {
         return id;
@@ -49,12 +59,12 @@ public class Venda {
         this.obsVenda = obsVenda;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
 }

@@ -2,17 +2,38 @@ package Controler;
 
 import BancodeDados.Conexao;
 import Model.Produto;
+import Model.Venda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 public class VendaDAO {
 
     Conexao conexao = new Conexao();
+
+    public void cadastrarVenda(Venda obj) {
+        conexao.conecta();
+        try {
+            PreparedStatement pst = conexao.conex.prepareStatement("insert into tb_vendas (nome_usuario,data_venda,"
+                    + "hora_venda,total_venda, observacoes,tipo_pagamento)values(?,?,?,?,?,?)");
+            pst.setString(1, obj.getNomeUsuario());
+            pst.setString(2, obj.getDataVenda());
+            pst.setString(3, obj.getHoraVenda());
+            pst.setDouble(4, obj.getTotalVenda());
+            pst.setString(5, obj.getObsVenda());
+            pst.setString(6, obj.getTipoPagamento());
+            
+
+            pst.execute();
+            pst.close();
+
+            JOptionPane.showMessageDialog(null, "Dados inseridos com Sucesso !");
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n Erro : " + ex);
+        }
+    }
 
     public Produto buscaProdutoPorNome(String nome) {
         conexao.conecta();
@@ -42,4 +63,25 @@ public class VendaDAO {
 
     }
 
+    public int retornaUltimaVenda() {
+
+        try {
+
+            int idVenda = 0;
+            String sql = "select max(id) id from tb_vendas"; // retorna maior id da tabela
+            PreparedStatement pst = conexao.conex.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                Venda p = new Venda();
+                p.setId(rs.getInt("id"));
+                idVenda = p.getId();
+            }
+            return idVenda;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
