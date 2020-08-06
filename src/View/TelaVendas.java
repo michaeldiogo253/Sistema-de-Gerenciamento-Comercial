@@ -2,12 +2,16 @@ package View;
 
 import BancodeDados.Conexao;
 import Controler.Ferramentas;
+import Controler.ItemVendaDAO;
 import Controler.ProdutoDAO;
 import Controler.VendaDAO;
+import Model.ItemVenda;
 import Model.Produto;
 import Model.Venda;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -495,10 +499,9 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
         try {
-           
+
             Venda obj = new Venda();
             String dataAmericana = f.DataAmericana();
-            System.out.println("data americana "+ dataAmericana);
             obj.setNomeUsuario(lblNome.getText());
             obj.setDataVenda(dataAmericana);
             obj.setHoraVenda(lblHora.getText());
@@ -508,12 +511,31 @@ public class TelaVendas extends javax.swing.JFrame {
 
             VendaDAO dao = new VendaDAO();
             dao.cadastrarVenda(obj);
+            obj.setId(dao.retornaUltimaVenda());
+            
+            for(int i = 0; i < carrinho.getRowCount() ; i++){ //  o numero de linhas do carrinho
+             
+                ItemVenda item = new ItemVenda();
+                Produto p = new Produto();
+                
+                item.setVenda(obj);
+                p.setId(Integer.parseInt(carrinho.getValueAt(i, 0).toString())); // i é a linha e 0 a coluna que não se altera e contem o cod do produto (id)
+                item.setProduto(p);
+                item.setQuantidade(Integer.parseInt(carrinho.getValueAt(i, 2).toString())); // coluna 2 possui a quantidade 
+                item.setSutotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString()));
+                
+                ItemVendaDAO objDAO = new ItemVendaDAO();
+                objDAO.CadastrarItensVenda(item);
+                
+            }
+            
+            JOptionPane.showMessageDialog(null, "Venda concluida com sucesso!!!");
             TelaVendas telaVen = new TelaVendas(lblNome.getText());
             telaVen.setVisible(true);
             dispose();
 
-        } catch (Exception e) {
-
+        } catch (NumberFormatException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Erro!!!"+ e);
         }
 
 

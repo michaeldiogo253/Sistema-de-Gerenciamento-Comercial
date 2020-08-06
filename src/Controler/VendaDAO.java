@@ -23,12 +23,9 @@ public class VendaDAO {
             pst.setDouble(4, obj.getTotalVenda());
             pst.setString(5, obj.getObsVenda());
             pst.setString(6, obj.getTipoPagamento());
-            
 
             pst.execute();
             pst.close();
-
-            JOptionPane.showMessageDialog(null, "Dados inseridos com Sucesso !");
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro na inserção de dados ! \n Erro : " + ex);
