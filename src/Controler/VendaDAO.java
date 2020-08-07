@@ -6,6 +6,9 @@ import Model.Venda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class VendaDAO {
@@ -81,4 +84,36 @@ public class VendaDAO {
         }
 
     }
+
+    public List<Venda> RelatorioUsuario(String nome) {
+        conexao.conecta();
+        try {
+
+            Ferramentas f = new Ferramentas();
+            String data = f.DataAmericana();
+            List<Venda> lista = new ArrayList<>();  // criar a lista
+            String SQL = "select * from tb_vendas where nome_usuario = '" + nome + "' and data_venda = '" + data + "'";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Venda obj = new Venda();
+
+                obj.setHoraVenda(rs.getString("hora_venda"));
+                obj.setTotalVenda(rs.getDouble("total_venda"));
+                obj.setObsVenda(rs.getString("observacoes"));
+                obj.setTipoPagamento(rs.getString("tipo_pagamento"));
+                
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro" + erro);
+            return null;
+        }
+
+    }
+
 }

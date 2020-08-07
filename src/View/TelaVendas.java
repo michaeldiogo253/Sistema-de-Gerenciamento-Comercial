@@ -11,7 +11,6 @@ import Model.Venda;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,6 +72,7 @@ public class TelaVendas extends javax.swing.JFrame {
         btnRemover = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         txtEstoqueAtual = new javax.swing.JTextField();
+        btnListarProdutos = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaItens = new javax.swing.JTable();
@@ -83,7 +83,6 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         lblHora = new javax.swing.JLabel();
-        btnListarProdutos = new javax.swing.JButton();
         JPagamento = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -230,6 +229,16 @@ public class TelaVendas extends javax.swing.JFrame {
             }
         });
 
+        btnListarProdutos.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnListarProdutos.setText("Listar Produtos");
+        btnListarProdutos.setContentAreaFilled(false);
+        btnListarProdutos.setOpaque(true);
+        btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarProdutosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -261,12 +270,17 @@ public class TelaVendas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addComponent(btnLimpar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRemover)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(btnAdd)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(btnAdd))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnListarProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -298,7 +312,9 @@ public class TelaVendas extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnLimpar)
                     .addComponent(btnRemover))
-                .addGap(59, 59, 59))
+                .addGap(18, 18, 18)
+                .addComponent(btnListarProdutos)
+                .addGap(10, 10, 10))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -374,17 +390,6 @@ public class TelaVendas extends javax.swing.JFrame {
         lblHora.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         lblHora.setForeground(new java.awt.Color(255, 255, 255));
 
-        btnListarProdutos.setBackground(new java.awt.Color(255, 255, 255));
-        btnListarProdutos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnListarProdutos.setText("Listar Produtos");
-        btnListarProdutos.setContentAreaFilled(false);
-        btnListarProdutos.setOpaque(true);
-        btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarProdutosActionPerformed(evt);
-            }
-        });
-
         JPagamento.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         JPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Dinheiro", "Cartão", "Cheque" }));
 
@@ -429,7 +434,6 @@ public class TelaVendas extends javax.swing.JFrame {
                                         .addGap(9, 9, 9)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(btnRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnListarProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,9 +484,7 @@ public class TelaVendas extends javax.swing.JFrame {
                                 .addGap(37, 37, 37)
                                 .addComponent(btnFinalizar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(btnListarProdutos)
-                                .addGap(18, 18, 18)
+                                .addGap(96, 96, 96)
                                 .addComponent(btnRelatorio)
                                 .addGap(26, 26, 26)
                                 .addComponent(btnSair))))
@@ -553,7 +555,9 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
-
+        TelaRelatoriosVendasUsuario telaRelatorio = new TelaRelatoriosVendasUsuario(lblNome.getText());
+        telaRelatorio.setVisible(true);
+        
     }//GEN-LAST:event_btnRelatorioActionPerformed
 
     private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
