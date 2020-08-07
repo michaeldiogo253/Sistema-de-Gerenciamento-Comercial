@@ -597,6 +597,7 @@ public class TelaVendas extends javax.swing.JFrame {
                 ProdutoDAO dao = new ProdutoDAO();
                 dao.AlteraEstoque(Integer.parseInt(txtCod.getText()), qtdNova);
                 txtEstoqueAtual.setText(String.valueOf(qtdNova));
+                txtQuantidade.setText("");
 
             } else {
                 if (Integer.parseInt(txtEstoqueAtual.getText()) <= 0) {
