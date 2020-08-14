@@ -135,7 +135,6 @@ public class TelaListarProdutos extends javax.swing.JFrame {
 
     private void TabelaProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaProdutoMouseClicked
         
-
     }//GEN-LAST:event_TabelaProdutoMouseClicked
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
