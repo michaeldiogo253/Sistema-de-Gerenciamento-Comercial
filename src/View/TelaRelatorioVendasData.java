@@ -197,7 +197,17 @@ public class TelaRelatorioVendasData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TabelaRelatorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaRelatorioMouseClicked
-
+        TelaDetalheVenda tela =  new TelaDetalheVenda();
+        
+        tela.txtUsuario.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 3).toString());
+        tela.txtData.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 1).toString());
+        tela.txtHora.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 2).toString());
+        tela.txtTotal.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 4).toString());
+        tela.txtObservacoes.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 5).toString());
+        tela.txtPagamento.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 6).toString());
+        
+        
+        
     }//GEN-LAST:event_TabelaRelatorioMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
