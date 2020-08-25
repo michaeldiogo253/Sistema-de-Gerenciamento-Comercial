@@ -2,6 +2,7 @@ package Controler;
 
 import BancodeDados.Conexao;
 import Model.Produto;
+import Model.Usuario;
 import Model.Venda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,7 +104,7 @@ public class VendaDAO {
                 obj.setTotalVenda(rs.getDouble("total_venda"));
                 obj.setObsVenda(rs.getString("observacoes"));
                 obj.setTipoPagamento(rs.getString("tipo_pagamento"));
-                
+
                 lista.add(obj);
             }
 
@@ -116,4 +117,42 @@ public class VendaDAO {
 
     }
 
+    public List<Venda> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_final) {
+        // date_format(v.data_venda,'%d/%m/%y') as data_formatada
+        conexao.conecta();
+        try {
+            List<Venda> lista = new ArrayList<>();  // criar a lista
+            String SQL = "select v.id, date_format(v.data_venda,'%d/%m/%Y') as data_formatada ,v.hora_venda, v.nome_usuario, "
+                    + "v.total_venda , v.observacoes , v.tipo_pagamento from tb_vendas as v "
+                    + "inner join tb_usuario as u on (v.nome_usuario = u.usuario_login) where v.data_venda BETWEEN ' "
+                    + data_inicio.toString() + "' AND '" + data_final.toString() + "'";
+
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            //stmt.setString(1, data_inicio.toString());
+            //stmt.setString(2, data_final.toString());
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Venda obj = new Venda();
+                Usuario c = new Usuario();
+
+                obj.setId(rs.getInt("v.id"));
+                obj.setDataVenda(rs.getString("data_formatada"));
+                obj.setHoraVenda(rs.getString("v.hora_venda"));
+                obj.setNomeUsuario(rs.getString("v.nome_usuario"));
+                obj.setTotalVenda(rs.getDouble("v.total_venda"));
+                obj.setObsVenda(rs.getString("v.observacoes"));
+                obj.setTipoPagamento(rs.getString("v.tipo_pagamento"));
+
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro" + erro);
+            return null;
+        }
+
+    }
 }

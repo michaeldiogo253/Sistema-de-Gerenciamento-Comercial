@@ -460,10 +460,9 @@ public class TelaVendas extends javax.swing.JFrame {
                             .addGroup(painelDadosLayout.createSequentialGroup()
                                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnPesquisarP)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(btnPesquisarP))
                             .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(788, 788, 788))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painelDadosLayout.createSequentialGroup()
@@ -734,10 +733,23 @@ public class TelaVendas extends javax.swing.JFrame {
 
             }
 
+            if (carrinho.getRowCount() > 0) {
+
+                int numeroLinhas = carrinho.getRowCount();
+
+                for (int i = 0; i < numeroLinhas; i++) {
+                    carrinho.removeRow(0);
+                }
+                f.LimpaCampo(painelDados);
+                total = 0;
+                txtObs.setText("");
+                txtTotal.setText("");
+                txtTroco.setText("");
+                txtValorRecebido.setText("");
+
+            }
+
             JOptionPane.showMessageDialog(null, "Venda concluida com sucesso!!!");
-            TelaVendas telaVen = new TelaVendas(lblNome.getText());
-            telaVen.setVisible(true);
-            dispose();
 
         } catch (NumberFormatException | HeadlessException e) {
 
