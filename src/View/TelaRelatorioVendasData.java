@@ -9,6 +9,7 @@ import Controler.ItemVendaDAO;
 import Controler.VendaDAO;
 import Model.ItemVenda;
 import Model.Venda;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -229,32 +230,39 @@ public class TelaRelatorioVendasData extends javax.swing.JFrame {
     }//GEN-LAST:event_TabelaRelatorioMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        try {
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data_inicio = LocalDate.parse(txtDataInicial.getText(), formato);
-            LocalDate data_final = LocalDate.parse(txtDataFinal.getText(), formato);
 
-            VendaDAO dao = new VendaDAO();
-            List<Venda> lista = dao.listarVendasPorPeriodo(data_inicio, data_final);
+        if (!txtDataInicial.getText().equals("  /  /    ") && (!txtDataFinal.getText().equals("  /  /    "))) {
 
-            DefaultTableModel dados = (DefaultTableModel) TabelaRelatorio.getModel();
-            dados.setNumRows(0);
+            try {
+                
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate data_inicio = LocalDate.parse(txtDataInicial.getText(), formato);
+                LocalDate data_final = LocalDate.parse(txtDataFinal.getText(), formato);
 
-            for (Venda v : lista) {
-                dados.addRow(new Object[]{
-                    v.getId(),
-                    v.getDataVenda(),
-                    v.getHoraVenda(),
-                    v.getNomeUsuario(),
-                    v.getTotalVenda(),
-                    v.getObsVenda(),
-                    v.getTipoPagamento()
-                });
+                VendaDAO dao = new VendaDAO();
+                List<Venda> lista = dao.listarVendasPorPeriodo(data_inicio, data_final);
 
+                DefaultTableModel dados = (DefaultTableModel) TabelaRelatorio.getModel();
+                dados.setNumRows(0);
+
+                for (Venda v : lista) {
+                    dados.addRow(new Object[]{
+                        v.getId(),
+                        v.getDataVenda(),
+                        v.getHoraVenda(),
+                        v.getNomeUsuario(),
+                        v.getTotalVenda(),
+                        v.getObsVenda(),
+                        v.getTipoPagamento()
+                    });
+
+                }
+
+            } catch (DateTimeException e) {
+                JOptionPane.showMessageDialog(null, "Datas invalidas... Digite novamente. " + e);
+                txtDataInicial.setText("");
+                txtDataFinal.setText("");
             }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Digite as datas como intervalo" + e);
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 

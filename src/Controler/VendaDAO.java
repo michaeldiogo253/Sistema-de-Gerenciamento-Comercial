@@ -118,18 +118,15 @@ public class VendaDAO {
     }
 
     public List<Venda> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_final) {
-        // date_format(v.data_venda,'%d/%m/%y') as data_formatada
         conexao.conecta();
         try {
             List<Venda> lista = new ArrayList<>();  // criar a lista
             String SQL = "select v.id, date_format(v.data_venda,'%d/%m/%Y') as data_formatada ,v.hora_venda, v.nome_usuario, "
                     + "v.total_venda , v.observacoes , v.tipo_pagamento from tb_vendas as v "
                     + "inner join tb_usuario as u on (v.nome_usuario = u.usuario_login) where v.data_venda BETWEEN ' "
-                    + data_inicio.toString() + "' AND '" + data_final.toString() + "'";
+                    + data_inicio.toString() + "' AND '" + data_final.toString() + "' order by v.data_venda,v.hora_venda";
 
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
-            //stmt.setString(1, data_inicio.toString());
-            //stmt.setString(2, data_final.toString());
             ResultSet rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
