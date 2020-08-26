@@ -5,7 +5,9 @@
  */
 package View;
 
+import Controler.ItemVendaDAO;
 import Controler.VendaDAO;
+import Model.ItemVenda;
 import Model.Venda;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -197,17 +199,33 @@ public class TelaRelatorioVendasData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TabelaRelatorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaRelatorioMouseClicked
-        TelaDetalheVenda tela =  new TelaDetalheVenda();
-        
+        TelaDetalheVenda tela = new TelaDetalheVenda();
+
         tela.txtUsuario.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 3).toString());
         tela.txtData.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 1).toString());
         tela.txtHora.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 2).toString());
         tela.txtTotal.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 4).toString());
         tela.txtObservacoes.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 5).toString());
         tela.txtPagamento.setText(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 6).toString());
-        
-        
-        
+
+        ItemVenda objI = new ItemVenda();
+        ItemVendaDAO objDao = new ItemVendaDAO();
+
+        List<ItemVenda> listaItens = objDao.listarItensdaVenda(Integer.parseInt(TabelaRelatorio.getValueAt(TabelaRelatorio.getSelectedRow(), 0).toString()));
+        DefaultTableModel dados = (DefaultTableModel) tela.TabelaItensVendidos.getModel();
+        dados.setNumRows(0);
+
+        for (ItemVenda i : listaItens) {
+            dados.addRow(new Object[]{
+                i.getProduto().getNome(),
+                i.getQuantidade(),
+                i.getProduto().getPreco(),
+                i.getSutotal()
+
+            });
+
+        }
+        tela.setVisible(true);
     }//GEN-LAST:event_TabelaRelatorioMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed

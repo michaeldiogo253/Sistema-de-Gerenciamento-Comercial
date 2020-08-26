@@ -38,9 +38,9 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBaixoEstoque = new javax.swing.JButton();
+        btnRelatorioData = new javax.swing.JButton();
+        btnProdutoMaisVendido = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -74,14 +74,19 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton1.setText("Produtos com baixo estoque");
+        btnBaixoEstoque.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnBaixoEstoque.setText("Produtos com baixo estoque");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton3.setText("Relatório de vendas por Data");
+        btnRelatorioData.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnRelatorioData.setText("Relatório de vendas por Data");
+        btnRelatorioData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioDataActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton2.setText("Produtos mais vendidos");
+        btnProdutoMaisVendido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnProdutoMaisVendido.setText("Produtos mais vendidos");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cronograma.png"))); // NOI18N
 
@@ -100,11 +105,11 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnProdutoMaisVendido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRelatorioData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBaixoEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(504, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,17 +121,17 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
                         .addGap(38, 38, 38))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton3)
+                        .addComponent(btnRelatorioData)
                         .addGap(49, 49, 49)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnProdutoMaisVendido))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jButton1)))
+                        .addComponent(btnBaixoEstoque)))
                 .addContainerGap(301, Short.MAX_VALUE))
         );
 
@@ -148,6 +153,12 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRelatorioDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioDataActionPerformed
+        TelaRelatorioVendasData telaR = new TelaRelatorioVendasData();
+        telaR.setVisible(true);
+
+    }//GEN-LAST:event_btnRelatorioDataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,9 +196,9 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnBaixoEstoque;
+    private javax.swing.JButton btnProdutoMaisVendido;
+    private javax.swing.JButton btnRelatorioData;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -32,7 +32,7 @@ public class ItemVendaDAO {
         }
     }
 
-    public List<ItemVenda> listaItensPorVendas(int venda_id) {
+    public List<ItemVenda> listarItensdaVenda(int venda_id) {
         conexao.conecta();
         try {
             List<ItemVenda> lista = new ArrayList<>();  // criar a lista

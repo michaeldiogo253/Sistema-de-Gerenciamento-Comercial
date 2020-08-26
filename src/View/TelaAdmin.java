@@ -103,6 +103,11 @@ public class TelaAdmin extends javax.swing.JFrame {
 
         btnRelatorio.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnRelatorio.setText("Relatorios");
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/businesspackage_additionalpackage_box_add_insert_negoci_2335 64.png"))); // NOI18N
 
@@ -217,6 +222,12 @@ public class TelaAdmin extends javax.swing.JFrame {
         tela.setVisible(true);
         
     }//GEN-LAST:event_btnAddProdutoActionPerformed
+
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        TelaRelatoriosVendasAdmin telaRelatorio = new TelaRelatoriosVendasAdmin();
+        telaRelatorio.setVisible(true);
+        
+    }//GEN-LAST:event_btnRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
