@@ -482,7 +482,8 @@ public class TelaCadUsuario extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        if ((txtSenha.getText().equals(txtConSenha.getText())) && (!"".equals(txtSenha.getText())) && (!txtNome.getText().equals(""))) {
+        if ((txtSenha.getText().equals(txtConSenha.getText())) && (!"".equals(txtSenha.getText())) && (!txtNome.getText().equals("")) 
+                && (txtSenha.getText().length() >= 8) && (!"".equals(txtLogin.getText())) ) {
 
             Usuario obj = new Usuario();
             obj.setNome(txtNome.getText());
@@ -501,6 +502,10 @@ public class TelaCadUsuario extends javax.swing.JFrame {
 
         } else {
             while (true) {
+                if (txtSenha.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(rootPane, "A Senha deve conter 8 ou mais caracteres digite novamente ...");
+                    break;
+                }
                 if (!txtSenha.getText().equals(txtConSenha.getText()) || ("".equals(txtSenha.getText()))) {
                     txtSenha.setText("");
                     txtConSenha.setText("");
@@ -523,7 +528,7 @@ public class TelaCadUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int op = JOptionPane.showConfirmDialog(null, "Deseja Excluir ?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (op == JOptionPane.YES_OPTION) {
             Usuario obj = new Usuario();
             obj.setId(Integer.parseInt(txtCodigo.getText()));
@@ -617,7 +622,7 @@ public class TelaCadUsuario extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
