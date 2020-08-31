@@ -152,4 +152,29 @@ public class VendaDAO {
         }
 
     }
+
+    public List <Produto> listarProdutosMaisVendidos() {
+        conexao.conecta();
+        try {
+            List<Produto> lista = new ArrayList<>();  // criar a lista
+            String SQL = "select p.nome , sum(i.qtd) from  tb_produtos as p join  "
+                    + " tb_itensvendas as i on (p.id = i.produto_id) group by p.nome order by sum(i.qtd) desc ;";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Produto obj = new Produto();
+
+                obj.setNome(rs.getString("p.nome"));
+                obj.setQuantidade(rs.getInt("sum(i.qtd)"));
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro" + erro);
+            return null;
+        }
+    }
 }

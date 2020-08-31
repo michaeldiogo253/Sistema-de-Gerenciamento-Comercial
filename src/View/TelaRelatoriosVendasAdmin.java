@@ -87,6 +87,11 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
 
         btnProdutoMaisVendido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnProdutoMaisVendido.setText("Produtos mais vendidos");
+        btnProdutoMaisVendido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProdutoMaisVendidoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cronograma.png"))); // NOI18N
 
@@ -160,6 +165,12 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRelatorioDataActionPerformed
 
+    private void btnProdutoMaisVendidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoMaisVendidoActionPerformed
+        TelaProdutosMaisVendido telaP = new TelaProdutosMaisVendido();
+        telaP.setVisible(true);
+        
+    }//GEN-LAST:event_btnProdutoMaisVendidoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -171,7 +182,7 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
