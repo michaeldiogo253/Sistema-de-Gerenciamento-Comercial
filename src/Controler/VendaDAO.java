@@ -153,7 +153,7 @@ public class VendaDAO {
 
     }
 
-    public List <Produto> listarProdutosMaisVendidos() {
+    public List<Produto> listarProdutosMaisVendidos() {
         conexao.conecta();
         try {
             List<Produto> lista = new ArrayList<>();  // criar a lista
@@ -177,4 +177,33 @@ public class VendaDAO {
             return null;
         }
     }
+
+    public List<Produto> listarProdutoBaixoEstoque() {
+        conexao.conecta();
+
+        try {
+            List<Produto> lista = new ArrayList<>();  // criar a lista
+            String SQL = "select nome, qtd_estoque, preco , descricao from tb_produtos order by qtd_estoque asc;";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Produto obj = new Produto();
+
+                obj.setNome(rs.getString("nome"));
+                obj.setQuantidade(rs.getInt("qtd_estoque"));
+                obj.setPreco(rs.getFloat("preco"));
+                obj.setDescricao(rs.getString("descricao"));
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro" + erro);
+            return null;
+        }
+
+    }
+
 }

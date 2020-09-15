@@ -76,6 +76,11 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
 
         btnBaixoEstoque.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnBaixoEstoque.setText("Produtos com baixo estoque");
+        btnBaixoEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBaixoEstoqueActionPerformed(evt);
+            }
+        });
 
         btnRelatorioData.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnRelatorioData.setText("Relatório de vendas por Data");
@@ -170,6 +175,12 @@ public class TelaRelatoriosVendasAdmin extends javax.swing.JFrame {
         telaP.setVisible(true);
         
     }//GEN-LAST:event_btnProdutoMaisVendidoActionPerformed
+
+    private void btnBaixoEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBaixoEstoqueActionPerformed
+        TelaBaixoEstoque tela = new TelaBaixoEstoque();
+        tela.setVisible(true);
+        
+    }//GEN-LAST:event_btnBaixoEstoqueActionPerformed
 
     /**
      * @param args the command line arguments
