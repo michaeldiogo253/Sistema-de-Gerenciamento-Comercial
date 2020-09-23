@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -114,7 +116,7 @@ public class TelaVendas extends javax.swing.JFrame {
         txtQuantidade = new javax.swing.JTextField();
         btnPesquisarP = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
-        btnListarProdutos = new javax.swing.JButton();
+        btnCancelaUltimaVenda = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnLimparCarrinho = new javax.swing.JButton();
@@ -408,12 +410,12 @@ public class TelaVendas extends javax.swing.JFrame {
             }
         });
 
-        btnListarProdutos.setBackground(new java.awt.Color(255, 255, 255));
-        btnListarProdutos.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        btnListarProdutos.setText("Listar Produtos");
-        btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelaUltimaVenda.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelaUltimaVenda.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnCancelaUltimaVenda.setText("Cancelar Ultima Venda");
+        btnCancelaUltimaVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarProdutosActionPerformed(evt);
+                btnCancelaUltimaVendaActionPerformed(evt);
             }
         });
 
@@ -466,7 +468,7 @@ public class TelaVendas extends javax.swing.JFrame {
                     .addGroup(painelDadosLayout.createSequentialGroup()
                         .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painelDadosLayout.createSequentialGroup()
-                                .addComponent(btnListarProdutos)
+                                .addComponent(btnCancelaUltimaVenda)
                                 .addGap(48, 48, 48)
                                 .addComponent(btnLimparCarrinho))
                             .addGroup(painelDadosLayout.createSequentialGroup()
@@ -519,7 +521,7 @@ public class TelaVendas extends javax.swing.JFrame {
                     .addComponent(btnLimpar))
                 .addGap(27, 27, 27)
                 .addGroup(painelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnListarProdutos)
+                    .addComponent(btnCancelaUltimaVenda)
                     .addComponent(btnLimparCarrinho))
                 .addGap(41, 41, 41))
         );
@@ -843,11 +845,23 @@ public class TelaVendas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLimparActionPerformed
 
-    private void btnListarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutosActionPerformed
+    private void btnCancelaUltimaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelaUltimaVendaActionPerformed
         // TODO add your handling code here:
-        TelaListarProdutos tela = new TelaListarProdutos();
-        tela.setVisible(true);
-    }//GEN-LAST:event_btnListarProdutosActionPerformed
+        VendaDAO dao = new VendaDAO();
+
+        int idUltimaVenda = dao.retornaUltimaVenda();
+        
+        // vai verificar se a ultima venda foi realizada pelo mesmo usuario e se foi no mesmo dia
+        boolean op = dao.verificaUsuarioUltimaVenda(lblNome.getText().toString(),
+                lblData.getText().toString(), idUltimaVenda); 
+
+        if (op == true) {
+            dao.CancelarUltimaVenda(idUltimaVenda);
+        } else{
+            JOptionPane.showMessageDialog(null, "Não foi possivel Cancelar Ultima Venda !");
+        }
+
+    }//GEN-LAST:event_btnCancelaUltimaVendaActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         // verifica se a linha esta selecionada ou não
@@ -1022,10 +1036,10 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JTable TabelaProduto;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCalcular;
+    private javax.swing.JButton btnCancelaUltimaVenda;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnLimparCarrinho;
-    private javax.swing.JButton btnListarProdutos;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnPesquisarP;
     private javax.swing.JButton btnRelatorio;

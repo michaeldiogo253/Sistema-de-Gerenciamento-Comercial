@@ -63,4 +63,20 @@ public class ItemVendaDAO {
 
     }
 
+    public void excluirObjItemVenda(int id_Venda) {
+        conexao.conecta();
+        try {
+
+            String SQL = "delete from tb_itensvendas where venda_id = ?";
+            PreparedStatement pst = conexao.conex.prepareStatement(SQL);
+            pst.setInt(1, id_Venda);
+            pst.execute();
+            pst.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir !");
+        }
+
+    }
+
 }

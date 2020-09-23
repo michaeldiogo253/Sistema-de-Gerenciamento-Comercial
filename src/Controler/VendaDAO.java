@@ -1,6 +1,7 @@
 package Controler;
 
 import BancodeDados.Conexao;
+import Model.ItemVenda;
 import Model.Produto;
 import Model.Usuario;
 import Model.Venda;
@@ -36,6 +37,21 @@ public class VendaDAO {
         }
     }
 
+    public void excluirVenda(int venda_id) {
+
+        conexao.conecta();
+        try {
+            String SQL = ("delete from tb_vendas where id = ?");
+            PreparedStatement pst = conexao.conex.prepareStatement(SQL);
+            pst.setInt(1, venda_id);
+            pst.execute();
+            pst.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro na exclusão da venda ! \n Erro : " + ex);
+        }
+    }
+
     public Produto buscaProdutoPorNome(String nome) {
         conexao.conecta();
         try {
@@ -65,7 +81,7 @@ public class VendaDAO {
     }
 
     public int retornaUltimaVenda() {
-
+        conexao.conecta();
         try {
 
             int idVenda = 0;
@@ -74,14 +90,13 @@ public class VendaDAO {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                Venda p = new Venda();
-                p.setId(rs.getInt("id"));
-                idVenda = p.getId();
+                idVenda = rs.getInt("id");
             }
             return idVenda;
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, "Erro" + e);
+            return 0;
         }
 
     }
@@ -206,4 +221,69 @@ public class VendaDAO {
 
     }
 
+    public void CancelarUltimaVenda(int idUltimaVenda) {
+        conexao.conecta();
+
+        try {
+            List<ItemVenda> lista = new ArrayList<>();  // criar a lista
+            String SQL = "select produto_id, qtd  from tb_itensvendas where venda_id = '" + idUltimaVenda + "';";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                ItemVenda obj = new ItemVenda();
+
+                obj.setId(rs.getInt("produto_id"));
+                obj.setQuantidade(rs.getInt("qtd"));
+                lista.add(obj);
+            }
+
+            for (int i = 0; i < lista.size(); i++) {
+                int codProd = lista.get(i).getId();
+                int qtdProd = lista.get(i).getQuantidade();
+
+                Produto obj = new Produto();
+                ProdutoDAO dao = new ProdutoDAO();
+                int qtdNovaProd = dao.SomarEstoque(codProd, qtdProd); // talvez aqui de erro porque o met retorna int
+                dao.AlteraEstoque(codProd, qtdNovaProd);
+            }
+
+            ItemVendaDAO dao = new ItemVendaDAO();
+            dao.excluirObjItemVenda(idUltimaVenda);
+
+            VendaDAO daov = new VendaDAO();
+            daov.excluirVenda(idUltimaVenda);
+            JOptionPane.showMessageDialog(null, "Ultima Venda Cancelada com sucesso!");
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro  " + erro);
+
+        }
+
+    }
+
+    public boolean verificaUsuarioUltimaVenda(String usuario, String data, int idUltimaVenda) {
+        conexao.conecta();
+
+        try {
+
+            String SQL = "select nome_usuario, date_format(data_venda,'%d/%m/%Y') as data_formatada  from tb_vendas where id = '" + idUltimaVenda + "';";
+            PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery(SQL);
+            Venda obj = new Venda();
+            if (rs.next()) {
+                obj.setNomeUsuario(rs.getString("nome_usuario"));
+                obj.setDataVenda(rs.getString("data_formatada"));
+            }
+
+            if (obj.getNomeUsuario().equals(usuario) && obj.getDataVenda().equals(data)) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
 }
