@@ -87,7 +87,7 @@ public class ProdutoDAO {
         try {
             List<Produto> lista = new ArrayList<>();  // criar a lista
 
-            String SQL = "select * from tb_produtos";
+            String SQL = "select * from tb_produtos order by nome";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery(SQL);
 

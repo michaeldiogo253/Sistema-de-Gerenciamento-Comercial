@@ -513,9 +513,11 @@ public class TelaProduto extends javax.swing.JFrame {
         try {
             if (Integer.parseInt(txtQuantidade.getText()) >= 0) {
 
+                String valor = daoObj.converteValorDinheiro(txtPreco.getText());
                 Produto obj = new Produto();
                 obj.setNome(txtNome.getText());
-                obj.setPreco(daoObj.converteValorSalvarBanco(txtPreco.getText()));
+                obj.setPreco(daoObj.converteValorSalvarBanco(valor));
+
                 obj.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
                 obj.setDescricao(txtDescricao.getText());
 
