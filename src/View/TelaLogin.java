@@ -43,6 +43,7 @@ public class TelaLogin extends javax.swing.JFrame {
         setTitle("Tela Login");
         setName("FrmLogin"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1000, 700));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));

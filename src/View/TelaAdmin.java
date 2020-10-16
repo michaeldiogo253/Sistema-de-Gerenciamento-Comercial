@@ -46,7 +46,7 @@ public class TelaAdmin extends javax.swing.JFrame {
         btnRelatorio = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -200,10 +200,13 @@ public class TelaAdmin extends javax.swing.JFrame {
         if (op == JOptionPane.YES_OPTION) {
             try {
                 conex.desconecta();
+                dispose();
+                TelaLogin tela = new TelaLogin();
+                tela.setVisible(true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao encerrar conexão ! \n Erro :" + ex.getMessage());
             }
-            System.exit(0);
+            //System.exit(0);
         }
 
 
