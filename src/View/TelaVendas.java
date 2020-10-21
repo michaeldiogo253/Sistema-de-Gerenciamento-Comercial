@@ -704,56 +704,58 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
 
         try {
+            if (total <= 0) {
+                JOptionPane.showMessageDialog(null, "Erro ao efetuar operação, verifique se o carrinho não está vazio !!!");
+            } else {
+                Venda obj = new Venda();
+                String dataAmericana = f.DataAmericana();
+                obj.setNomeUsuario(lblNome.getText());
+                obj.setDataVenda(dataAmericana);
+                obj.setHoraVenda(lblHora.getText());
+                //double b = objP.converteValorSalvarBanco(txtTotal.getText());
+                obj.setTotalVenda(total);
+                obj.setTipoPagamento(JPagamento.getSelectedItem().toString());
+                obj.setObsVenda(txtObs.getText());
 
-            Venda obj = new Venda();
-            String dataAmericana = f.DataAmericana();
-            obj.setNomeUsuario(lblNome.getText());
-            obj.setDataVenda(dataAmericana);
-            obj.setHoraVenda(lblHora.getText());
-            //double b = objP.converteValorSalvarBanco(txtTotal.getText());
-            obj.setTotalVenda(total);
-            obj.setTipoPagamento(JPagamento.getSelectedItem().toString());
-            obj.setObsVenda(txtObs.getText());
+                VendaDAO dao = new VendaDAO();
+                dao.cadastrarVenda(obj);
+                obj.setId(dao.retornaUltimaVenda());
 
-            VendaDAO dao = new VendaDAO();
-            dao.cadastrarVenda(obj);
-            obj.setId(dao.retornaUltimaVenda());
+                for (int i = 0; i < carrinho.getRowCount(); i++) { //  o numero de linhas do carrinho
 
-            for (int i = 0; i < carrinho.getRowCount(); i++) { //  o numero de linhas do carrinho
+                    ItemVenda item = new ItemVenda();
+                    Produto p = new Produto();
 
-                ItemVenda item = new ItemVenda();
-                Produto p = new Produto();
+                    item.setVenda(obj);
+                    p.setId(Integer.parseInt(carrinho.getValueAt(i, 0).toString())); // i é a linha e 0 a coluna que não se altera e contem o cod do produto (id)
+                    item.setProduto(p);
+                    item.setQuantidade(Integer.parseInt(carrinho.getValueAt(i, 2).toString())); // coluna 2 possui a quantidade 
+                    item.setSutotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString()));
 
-                item.setVenda(obj);
-                p.setId(Integer.parseInt(carrinho.getValueAt(i, 0).toString())); // i é a linha e 0 a coluna que não se altera e contem o cod do produto (id)
-                item.setProduto(p);
-                item.setQuantidade(Integer.parseInt(carrinho.getValueAt(i, 2).toString())); // coluna 2 possui a quantidade 
-                item.setSutotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString()));
+                    ItemVendaDAO objDAO = new ItemVendaDAO();
+                    objDAO.CadastrarItensVenda(item);
 
-                ItemVendaDAO objDAO = new ItemVendaDAO();
-                objDAO.CadastrarItensVenda(item);
-
-            }
-
-            if (carrinho.getRowCount() > 0) {
-
-                int numeroLinhas = carrinho.getRowCount();
-
-                for (int i = 0; i < numeroLinhas; i++) {
-                    carrinho.removeRow(0);
                 }
-                f.LimpaCampo(painelDados);
-                total = 0;
-                txtObs.setText("");
-                txtTotal.setText("");
-                txtTroco.setText("");
-                txtValorRecebido.setText("");
 
+                if (carrinho.getRowCount() > 0) {
+
+                    int numeroLinhas = carrinho.getRowCount();
+
+                    for (int i = 0; i < numeroLinhas; i++) {
+                        carrinho.removeRow(0);
+                    }
+                    f.LimpaCampo(painelDados);
+                    total = 0;
+                    txtObs.setText("");
+                    txtTotal.setText("");
+                    txtTroco.setText("");
+                    txtValorRecebido.setText("");
+
+                }
+
+                JOptionPane.showMessageDialog(null, "Venda concluida com sucesso!!!");
             }
-
-            JOptionPane.showMessageDialog(null, "Venda concluida com sucesso!!!");
-
-        } catch (NumberFormatException | HeadlessException e) {
+        } catch (NumberFormatException | HeadlessException | NullPointerException e) {
 
             JOptionPane.showMessageDialog(null, "Erro ao efetuar operação, verifique se o carrinho não está vazio !!!" + e);
 
@@ -763,7 +765,7 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
 
-        if ((txtTotal.getText().equals("")) || ((objP.converteValorSalvarBanco(txtTotal.getText())) == 0)) {
+        if ((txtTotal.getText().equals("")) || (total == 0)) {
             int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (op == JOptionPane.YES_OPTION) {
                 dispose();
@@ -775,6 +777,8 @@ public class TelaVendas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
+    // ((txtTotal.getText().equals("")) || ((objP.converteValorSalvarBanco(txtTotal.getText())) == 0))
+    
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
         TelaRelatoriosVendasUsuario telaRelatorio = new TelaRelatoriosVendasUsuario(lblNome.getText());
         telaRelatorio.setVisible(true);
@@ -880,7 +884,9 @@ public class TelaVendas extends javax.swing.JFrame {
             txtEstoqueAtual.setText(String.valueOf(daop.SomarEstoque(codProduto, qtdProduto)));
             daop.AlteraEstoque(codProduto, daop.SomarEstoque(codProduto, qtdProduto));
             total = total - precoRemover;
-            txtTotal.setText(String.valueOf(total));
+            
+            // voltar esta linha depois txtTotal.setText(String.valueOf((total)));
+            txtTotal.setText(objP.converteValorDinheiro(String.valueOf((total))));
             carrinho.removeRow(TabelaItens.getSelectedRow());
 
         }
