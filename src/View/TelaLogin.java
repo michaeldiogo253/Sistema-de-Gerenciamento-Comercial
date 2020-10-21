@@ -3,6 +3,8 @@ package View;
 
 import BancodeDados.Conexao;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -194,6 +196,11 @@ public class TelaLogin extends javax.swing.JFrame {
        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (op == JOptionPane.YES_OPTION) {
             dispose();
+           try {
+               conex.desconecta();
+           } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro ao desconectar" );
+           }
         }
     }//GEN-LAST:event_btnSairActionPerformed
 

@@ -145,7 +145,8 @@ public class ProdutoDAO {
         return valorFormat;
     }
 
-    public Float converteValorSalvarBanco(String valor) {
+    public float converteValorSalvarBanco(String valor) {
+        // trocar o tipo por float
 
         String valorSemEspacos = valor.replaceAll(" ", "");
         String valor1 = valorSemEspacos.replace("R$", "").replace(".", "");

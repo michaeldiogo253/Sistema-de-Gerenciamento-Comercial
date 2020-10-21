@@ -11,10 +11,8 @@ import Model.Venda;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -712,9 +710,8 @@ public class TelaVendas extends javax.swing.JFrame {
             obj.setNomeUsuario(lblNome.getText());
             obj.setDataVenda(dataAmericana);
             obj.setHoraVenda(lblHora.getText());
-            double b = objP.converteValorSalvarBanco(txtTotal.getText());
-            obj.setTotalVenda(b);
-            // obj.setTotalVenda(Double.parseDouble(txtTotal.getText()));
+            //double b = objP.converteValorSalvarBanco(txtTotal.getText());
+            obj.setTotalVenda(total);
             obj.setTipoPagamento(JPagamento.getSelectedItem().toString());
             obj.setObsVenda(txtObs.getText());
 
@@ -758,7 +755,7 @@ public class TelaVendas extends javax.swing.JFrame {
 
         } catch (NumberFormatException | HeadlessException e) {
 
-            JOptionPane.showMessageDialog(null, "Erro ao efetuar operação, verifique se o carrinho não está vazio !!!");
+            JOptionPane.showMessageDialog(null, "Erro ao efetuar operação, verifique se o carrinho não está vazio !!!" + e);
 
         }
 
@@ -798,8 +795,9 @@ public class TelaVendas extends javax.swing.JFrame {
         if (!txtValorRecebido.getText().equals("")) {
             try {
                 double valorCompra, troco, valorRecebido;
-                valorCompra = objP.converteValorSalvarBanco(txtTotal.getText());
+                //valorCompra = objP.converteValorSalvarBanco(txtTotal.getText());
                 //valorCompra = Double.parseDouble(txtTotal.getText()); segunda alteração 
+                valorCompra = total;
                 valorRecebido = Double.parseDouble(txtValorRecebido.getText());
                 troco = valorRecebido - valorCompra;
                 txtTroco.setText(objP.converteValorDinheiro(String.valueOf(troco)));
@@ -855,14 +853,14 @@ public class TelaVendas extends javax.swing.JFrame {
         VendaDAO dao = new VendaDAO();
 
         int idUltimaVenda = dao.retornaUltimaVenda();
-        
+
         // vai verificar se a ultima venda foi realizada pelo mesmo usuario e se foi no mesmo dia
         boolean op = dao.verificaUsuarioUltimaVenda(lblNome.getText().toString(),
-                lblData.getText().toString(), idUltimaVenda); 
+                lblData.getText().toString(), idUltimaVenda);
 
         if (op == true) {
             dao.CancelarUltimaVenda(idUltimaVenda);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Não foi possivel Cancelar Ultima Venda !");
         }
 
@@ -891,14 +889,14 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             if ((Integer.parseInt(txtCod.getText()) > 0) && !(txtNome.getText().equals("")) && (Integer.parseInt(txtQuantidade.getText()) > 0)
-                    && !txtQuantidade.getText().equals("") && Integer.parseInt(txtEstoqueAtual.getText()) > 0) {
+                    && (!txtQuantidade.getText().equals("")) && (Integer.parseInt(txtEstoqueAtual.getText()) > 0)
+                    && (Integer.parseInt(txtQuantidade.getText()) <= Integer.parseInt(txtEstoqueAtual.getText()))) {
 
                 quantidade = Integer.parseInt(txtQuantidade.getText());
                 preco = Double.parseDouble(txtPreco.getText());
                 subtotal = quantidade * preco;
                 total = total + subtotal;
                 txtTotal.setText(objP.converteValorDinheiro(String.valueOf(total)));
-                //txtTotal.setText(String.valueOf(total)); primeira alteração do valor total
 
                 carrinho = (DefaultTableModel) TabelaItens.getModel();
                 carrinho.addRow(new Object[]{
@@ -917,8 +915,12 @@ public class TelaVendas extends javax.swing.JFrame {
                 txtQuantidade.setText("");
 
             } else {
-                if (Integer.parseInt(txtEstoqueAtual.getText()) <= 0) {
+                if (Integer.parseInt(txtQuantidade.getText()) < 0) {
+                    txtQuantidade.setText("");
+                }
+                if (Integer.parseInt(txtEstoqueAtual.getText()) < Integer.parseInt(txtQuantidade.getText())) {
                     JOptionPane.showMessageDialog(null, "Quantidade insuficiente ...");
+                    txtQuantidade.setText("");
                 }
             }
 
@@ -967,38 +969,43 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void btnLimparCarrinhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCarrinhoActionPerformed
-        if (carrinho.getRowCount() > 0) {
-            int op = JOptionPane.showConfirmDialog(null, "Deseja remover todos os itens do carrinho ?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (op == JOptionPane.YES_OPTION) {
-                try {
+        try {
 
-                    int numeroLinhas = carrinho.getRowCount();
+            if (carrinho.getRowCount() > 0) {
+                int op = JOptionPane.showConfirmDialog(null, "Deseja remover todos os itens do carrinho ?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (op == JOptionPane.YES_OPTION) {
+                    try {
 
-                    for (int i = 0; i < numeroLinhas; i++) { //  o numero de linhas do carrinho
-                        int qtd, cod = 0;
-                        qtd = Integer.parseInt(carrinho.getValueAt(0, 2).toString()); // sempre vai remover a linha 0 e adicionar a qtd desta linha 
-                        cod = Integer.parseInt(carrinho.getValueAt(0, 0).toString()); // no estoque
+                        int numeroLinhas = carrinho.getRowCount();
 
-                        ProdutoDAO daoP = new ProdutoDAO();
-                        daoP.AlteraEstoque(cod, daoP.SomarEstoque(cod, qtd));
-                        carrinho.removeRow(0);
+                        for (int i = 0; i < numeroLinhas; i++) { //  o numero de linhas do carrinho
+                            int qtd, cod = 0;
+                            qtd = Integer.parseInt(carrinho.getValueAt(0, 2).toString()); // sempre vai remover a linha 0 e adicionar a qtd desta linha 
+                            cod = Integer.parseInt(carrinho.getValueAt(0, 0).toString()); // no estoque
 
+                            ProdutoDAO daoP = new ProdutoDAO();
+                            daoP.AlteraEstoque(cod, daoP.SomarEstoque(cod, qtd));
+                            carrinho.removeRow(0);
+
+                        }
+                        f.LimpaCampo(painelDados);
+                        total = 0;
+                        txtTotal.setText("");
+                        txtTroco.setText("");
+                        txtValorRecebido.setText("");
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Carrinho está vazio !!! erro" + e);
                     }
-                    f.LimpaCampo(painelDados);
-                    total = 0;
-                    txtTotal.setText("");
-                    txtTroco.setText("");
-                    txtValorRecebido.setText("");
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Carrinho está vazio !!! erro" + e);
                 }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Carrinho está vazio !!!");
             }
-
-        } else {
+        } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Carrinho está vazio !!!");
-        }
 
+        }
 
     }//GEN-LAST:event_btnLimparCarrinhoActionPerformed
 
