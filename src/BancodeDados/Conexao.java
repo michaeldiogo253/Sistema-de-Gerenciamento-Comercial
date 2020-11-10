@@ -21,13 +21,13 @@ public class Conexao {
     private static final String USUARIO = "michael";
     private static final String SENHA = "kelly253";
 
-    public void conecta() { // metodo responsavel de realizar a conexão com banco
+    // metodo responsavel de realizar a conexão com banco
+    public void conecta() { 
 
         try {
             System.setProperty("jdbc.Drivers", DRIVER); // seta a propriedade do driver de conexão
-            conex = DriverManager.getConnection(CAMINHO, USUARIO, SENHA); // realiza a coneão com o banco de dados
+            conex = DriverManager.getConnection(CAMINHO, USUARIO, SENHA); // realiza a conexão com o banco de dados
             System.setProperty("jdbc.Drivers", DRIVER);
-            // JOptionPane.showMessageDialog(null, "Conectado com sucesso !");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro de Conexão ! \n Erro :" + ex.getMessage());
         }

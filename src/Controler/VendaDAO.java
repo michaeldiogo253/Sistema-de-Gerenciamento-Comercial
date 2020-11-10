@@ -107,7 +107,7 @@ public class VendaDAO {
 
             Ferramentas f = new Ferramentas();
             String data = f.DataAmericana();
-            List<Venda> lista = new ArrayList<>();  // criar a lista
+            List<Venda> lista = new ArrayList<>();
             String SQL = "select * from tb_vendas where nome_usuario = '" + nome + "' and data_venda = '" + data + "'";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery(SQL);
@@ -135,7 +135,7 @@ public class VendaDAO {
     public List<Venda> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_final) {
         conexao.conecta();
         try {
-            List<Venda> lista = new ArrayList<>();  // criar a lista
+            List<Venda> lista = new ArrayList<>();
             String SQL = "select v.id, date_format(v.data_venda,'%d/%m/%Y') as data_formatada ,v.hora_venda, v.nome_usuario, "
                     + "v.total_venda , v.observacoes , v.tipo_pagamento from tb_vendas as v "
                     + "inner join tb_usuario as u on (v.nome_usuario = u.usuario_login) where v.data_venda BETWEEN ' "
@@ -171,7 +171,7 @@ public class VendaDAO {
     public List<Produto> listarProdutosMaisVendidos() {
         conexao.conecta();
         try {
-            List<Produto> lista = new ArrayList<>();  // criar a lista
+            List<Produto> lista = new ArrayList<>();
             String SQL = "select p.nome , sum(i.qtd) from  tb_produtos as p join  "
                     + " tb_itensvendas as i on (p.id = i.produto_id) group by p.nome order by sum(i.qtd) desc ;";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
@@ -197,7 +197,7 @@ public class VendaDAO {
         conexao.conecta();
 
         try {
-            List<Produto> lista = new ArrayList<>();  // criar a lista
+            List<Produto> lista = new ArrayList<>();
             String SQL = "select nome, qtd_estoque, preco , descricao from tb_produtos order by qtd_estoque asc;";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery(SQL);
@@ -262,6 +262,8 @@ public class VendaDAO {
     }
 
     public boolean verificaUsuarioUltimaVenda(String usuario, String data, int idUltimaVenda) {
+        // este metodo verifica se o usuario passado por parametro é o mesmo que realizou a ultima venda
+
         conexao.conecta();
 
         try {

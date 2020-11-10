@@ -9,7 +9,6 @@ public class Venda {
     private Double totalVenda;
     private String obsVenda;
     private String tipoPagamento;
-    // nome do usuario posso  pegar do txt que marca o nome
 
     public String getTipoPagamento() {
         return tipoPagamento;

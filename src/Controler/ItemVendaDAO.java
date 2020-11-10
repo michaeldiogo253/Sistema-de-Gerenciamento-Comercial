@@ -35,7 +35,7 @@ public class ItemVendaDAO {
     public List<ItemVenda> listarItensdaVenda(int venda_id) {
         conexao.conecta();
         try {
-            List<ItemVenda> lista = new ArrayList<>();  // criar a lista
+            List<ItemVenda> lista = new ArrayList<>();
             String SQL = "select  p.nome, i.qtd, p.preco , i.subtotal  from tb_itensvendas as i "
                     + " inner join tb_produtos as p on (i.produto_id = p.id) where i.venda_id = '" + venda_id + "'";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);

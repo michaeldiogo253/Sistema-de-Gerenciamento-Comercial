@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
 import Controler.UsuarioDAO;
@@ -118,11 +114,6 @@ public class TelaCadUsuario extends javax.swing.JFrame {
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTabbedPane1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTabbedPane1KeyPressed(evt);
-            }
-        });
 
         painelDados.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -475,10 +466,6 @@ public class TelaCadUsuario extends javax.swing.JFrame {
         btnAlterar.setEnabled(true);
         btnExcluir.setEnabled(true);
     }//GEN-LAST:event_TabelaUsuarioMouseClicked
-
-    private void jTabbedPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane1KeyPressed
-
-    }//GEN-LAST:event_jTabbedPane1KeyPressed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 

@@ -206,7 +206,7 @@ public class TelaAdmin extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao encerrar conexão ! \n Erro :" + ex.getMessage());
             }
-            //System.exit(0);
+            
         }
 
 

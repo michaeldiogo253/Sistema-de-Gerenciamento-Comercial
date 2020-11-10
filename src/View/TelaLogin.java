@@ -66,11 +66,6 @@ public class TelaLogin extends javax.swing.JFrame {
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         txtSenha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSenhaActionPerformed(evt);
-            }
-        });
 
         btnEntrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEntrar.setText("Entrar");
@@ -187,10 +182,6 @@ public class TelaLogin extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnEntrarActionPerformed
-
-    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
        int op = JOptionPane.showConfirmDialog(null, "Deseja Sair?", "Confirmar ação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

@@ -88,7 +88,7 @@ public class UsuarioDAO {
     public List<Usuario> listarUsuario() {
         conexao.conecta();
         try {
-            List<Usuario> lista = new ArrayList<>();  // criar a lista
+            List<Usuario> lista = new ArrayList<>();
 
             String SQL = "select * from tb_usuario";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
@@ -121,10 +121,9 @@ public class UsuarioDAO {
     public List<Usuario> buscaClientePorNome(String nome) {
         conexao.conecta();
         try {
-            List<Usuario> lista = new ArrayList<>();  // criar a lista
+            List<Usuario> lista = new ArrayList<>();
             String SQL = "select * from tb_usuario where nome like '%" + nome + "%'";
             PreparedStatement stmt = conexao.conex.prepareStatement(SQL);
-            // stmt.setString(1, nome);
             ResultSet rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {

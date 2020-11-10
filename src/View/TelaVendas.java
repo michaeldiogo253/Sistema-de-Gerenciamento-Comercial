@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -223,11 +222,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
         txtTotal.setEditable(false);
         txtTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -334,11 +328,6 @@ public class TelaVendas extends javax.swing.JFrame {
                 jTabbedPane1MouseClicked(evt);
             }
         });
-        jTabbedPane1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTabbedPane1KeyPressed(evt);
-            }
-        });
 
         painelDados.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -347,11 +336,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
         txtCod.setEditable(false);
         txtCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtCod.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCodKeyPressed(evt);
-            }
-        });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel15.setText("Nome");
@@ -363,32 +347,17 @@ public class TelaVendas extends javax.swing.JFrame {
 
         txtPreco.setEditable(false);
         txtPreco.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtPreco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPrecoActionPerformed(evt);
-            }
-        });
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setText("Estoque atual");
 
         txtEstoqueAtual.setEditable(false);
         txtEstoqueAtual.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtEstoqueAtual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEstoqueAtualActionPerformed(evt);
-            }
-        });
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel18.setText("Quantidade");
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantidadeActionPerformed(evt);
-            }
-        });
 
         btnPesquisarP.setBackground(new java.awt.Color(255, 255, 255));
         btnPesquisarP.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -712,7 +681,6 @@ public class TelaVendas extends javax.swing.JFrame {
                 obj.setNomeUsuario(lblNome.getText());
                 obj.setDataVenda(dataAmericana);
                 obj.setHoraVenda(lblHora.getText());
-                //double b = objP.converteValorSalvarBanco(txtTotal.getText());
                 obj.setTotalVenda(total);
                 obj.setTipoPagamento(JPagamento.getSelectedItem().toString());
                 obj.setObsVenda(txtObs.getText());
@@ -777,8 +745,6 @@ public class TelaVendas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
-    // ((txtTotal.getText().equals("")) || ((objP.converteValorSalvarBanco(txtTotal.getText())) == 0))
-    
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
         TelaRelatoriosVendasUsuario telaRelatorio = new TelaRelatoriosVendasUsuario(lblNome.getText());
         telaRelatorio.setVisible(true);
@@ -788,7 +754,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Date data = new Date();
         DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        lblData.setText(formato.format(data)); // removi um toString daqui se der ruim depois ...
+        lblData.setText(formato.format(data));
 
         Timer timer = new Timer(1000, new hora());
         timer.start();
@@ -799,14 +765,11 @@ public class TelaVendas extends javax.swing.JFrame {
         if (!txtValorRecebido.getText().equals("")) {
             try {
                 double valorCompra, troco, valorRecebido;
-                //valorCompra = objP.converteValorSalvarBanco(txtTotal.getText());
-                //valorCompra = Double.parseDouble(txtTotal.getText()); segunda alteração 
                 valorCompra = total;
                 valorRecebido = Double.parseDouble(txtValorRecebido.getText());
                 troco = valorRecebido - valorCompra;
                 txtTroco.setText(objP.converteValorDinheiro(String.valueOf(troco)));
 
-                //txtTroco.setText(String.valueOf(troco));
             } catch (Exception e) {
 
             }
@@ -814,26 +777,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnCalcularActionPerformed
-
-    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalActionPerformed
-
-    private void txtCodKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodKeyPressed
-
-    }//GEN-LAST:event_txtCodKeyPressed
-
-    private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecoActionPerformed
-
-    private void txtEstoqueAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstoqueAtualActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstoqueAtualActionPerformed
-
-    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     private void btnPesquisarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPActionPerformed
 
@@ -879,13 +822,12 @@ public class TelaVendas extends javax.swing.JFrame {
             int qtdProduto = Integer.parseInt(TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 2).toString()); // pegando a quantidade do carrinho
             double precoRemover = (double) TabelaItens.getValueAt(TabelaItens.getSelectedRow(), 4); // pegamos o valor em double da tabela
 
-            //int totalProduto = Integer.parseInt(txtEstoqueAtual.getText());
+            
             ProdutoDAO daop = new ProdutoDAO();
             txtEstoqueAtual.setText(String.valueOf(daop.SomarEstoque(codProduto, qtdProduto)));
             daop.AlteraEstoque(codProduto, daop.SomarEstoque(codProduto, qtdProduto));
             total = total - precoRemover;
-            
-            // voltar esta linha depois txtTotal.setText(String.valueOf((total)));
+
             txtTotal.setText(objP.converteValorDinheiro(String.valueOf((total))));
             carrinho.removeRow(TabelaItens.getSelectedRow());
 
@@ -964,10 +906,6 @@ public class TelaVendas extends javax.swing.JFrame {
         txtPreco.setText(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 2).toString());
         txtEstoqueAtual.setText(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 3).toString());
     }//GEN-LAST:event_TabelaProdutoMouseClicked
-
-    private void jTabbedPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane1KeyPressed
-
-    }//GEN-LAST:event_jTabbedPane1KeyPressed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         listar();

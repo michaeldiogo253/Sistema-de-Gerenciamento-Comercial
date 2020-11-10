@@ -87,22 +87,12 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
         txtEstoqueAtual.setEditable(false);
         txtEstoqueAtual.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtEstoqueAtual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEstoqueAtualActionPerformed(evt);
-            }
-        });
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Quantidade");
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantidadeActionPerformed(evt);
-            }
-        });
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnAdd.setText("Adicionar");
@@ -234,14 +224,6 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
-
-    private void txtEstoqueAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstoqueAtualActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstoqueAtualActionPerformed
-
-    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     private void TabelaProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaProdutoMouseClicked
         idProduto = Integer.parseInt(TabelaProduto.getValueAt(TabelaProduto.getSelectedRow(), 0).toString());

@@ -1,33 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
-import Controler.ProdutoDAO;
 import Controler.VendaDAO;
 import Model.Produto;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author michael
- */
+
 public class TelaProdutosMaisVendido extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaProdutosMaisVendido
-     */
+   
     public void listar() {
 
         VendaDAO dao = new VendaDAO();
         List<Produto> lista = dao.listarProdutosMaisVendidos();
         DefaultTableModel dados = (DefaultTableModel) TabelaProdutosMaisVendidos.getModel();
 
-        dados.setNumRows(0); // limpa os dados 
+        dados.setNumRows(0); 
 
         for (Produto c : lista) {
             dados.addRow(new Object[]{
@@ -100,11 +90,6 @@ public class TelaProdutosMaisVendido extends javax.swing.JFrame {
                 "Produto", "Qtd. Vendida"
             }
         ));
-        TabelaProdutosMaisVendidos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TabelaProdutosMaisVendidosMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(TabelaProdutosMaisVendidos);
 
         btnSair.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -156,10 +141,6 @@ public class TelaProdutosMaisVendido extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void TabelaProdutosMaisVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaProdutosMaisVendidosMouseClicked
-
-    }//GEN-LAST:event_TabelaProdutosMaisVendidosMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listar();
